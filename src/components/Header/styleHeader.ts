@@ -1,68 +1,67 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
+export const HeaderContainerAll = styled.header<{ return: boolean }>`
+  width: 100%;
+  max-width: 100%;
+  height: 80px;
+  background: #ffffff;
 
-export const HeaderContainerAll = styled.header`
-    width: 1920px;
-    max-width: 100%;
-    height: 80px;
-    background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: ${(props) => (props.return ? `28px 157px` : `0 10rem`)};
+`;
+
+export const BoxAdd = styled.div<{ return: boolean }>`
+  width: ${(props) => (props.return ? `92%` : `100%`)};
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    width: 12rem;
+    height: 2rem;
+    background: ${({ theme }) => theme.colors.brandColorDefault};
+    border: none;
+    border-radius: 2rem;
 
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-around;
 
-`
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #ffffff;
 
-export const BoxAdd = styled.div<{ return: boolean }>`
-        width: ${props => (props.return ? `92%` : `100%`)};
-        height: 100%;
-        padding: ${props => (props.return ? `0 10rem 0 2rem` : `0 10rem`)};
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    transition: filter 0.2s;
 
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`;
 
-        h5 {
-            font-family: Montserrat, sans-serif;
-            font-style: normal;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: #4F46BB;
-        }
-
-        button {
-            width: 12rem;
-            height: 2rem;
-            background: #4F46BB;
-            border: none;
-            border-radius: 2rem;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-
-            font-family: Inter, sans-serif;
-            font-style: normal;
-            font-weight: 700;
-            font-size: 1rem;
-            color: #FFFFFF;
-
-            transition: filter 0.2s;
-
-            &:hover {
-                filter: brightness(0.9);
-            }
-        }
+export const TitleHeader = styled.h5`
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  color: ${({ theme }) => theme.colors.brandColorDefault};
+  width: fit-content;
 `;
 
 export const BoxRetur = styled.div`
-    width: 8%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
 
-    img {
-        cursor: pointer;
-    }
+  img {
+    cursor: pointer;
+  }
 `;
