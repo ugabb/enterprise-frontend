@@ -3,7 +3,6 @@ import axios from "axios";
 import Head from "next/head";
 import ButtonFooter from "../components/buttonFooter/buttonFooter";
 import Header from "../components/Header";
-import { IconButton, Input, InputAdornment, Alert, Button, Dialog } from "@material-ui/core";
 import {
     ContainertLupa,
     ContentLupa,
@@ -11,6 +10,8 @@ import {
 import Search from "../components/Search/Search";
 import Enterprise from "../components/Enterprise/Enterprise";
 import { useRouter } from "next/dist/client/router";
+import { useQuery } from "@tanstack/react-query";
+import { getEnterprises } from "../api/get-enterprises";
 
 
 export default function Home() {
@@ -22,11 +23,10 @@ export default function Home() {
 
     const router = useRouter()
 
-    const Enterprises = async () => {
-        await axios.get('http://localhost:3001/enterprises').then((response) => {
-            setEnterprises(response.data)
-        });
-    }
+    const { data: enterprisesList } = useQuery({
+        queryKey: ["enterprises"],
+        queryFn: getEnterprises,
+    })
 
     function numberEnterprises() {
         setEnterprisesNumber(enterprises.length)
@@ -36,9 +36,11 @@ export default function Home() {
         numberEnterprises()
     })
 
-    useEffect(() => {
-        Enterprises()
-    }, [])
+
+    // useEffect(() => {
+    //     // Enterprises()
+    //     console.log(enterprisesList);
+    // }, [enterprisesList])
 
     function handleNewEnterprise() {
         router.push("/register-enterprise")
@@ -90,10 +92,15 @@ export default function Home() {
                         </ContainertLupa>
                         {handleSearch.slice(0, rowsPerPage).map((data: any) => {
                             return (
-                                <Enterprise key={data.id} enterprise={data}/>
+                                <Enterprise key={data.id} enterprise={data} />
                             )
                         })}
                         {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)} />}
+
+                        {Array.isArray(enterprisesList) && enterprisesList.map((data: any) => (
+                            <Enterprise key={data.id} enterprise={data} />
+                        ))}
+
                     </>
                 }
             </main>
