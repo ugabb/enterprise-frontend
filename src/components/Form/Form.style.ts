@@ -7,12 +7,19 @@ export const FormContainer = styled.div`
   flex-direction: column;
   gap: 11px;
 
-  width: 622px;
-  height: 606px;
+  padding: 1rem;
+  margin: 1rem;
+  width: 100%;
+  max-width: 622px;
+  min-height: 606px;
 
   background-color: white;
 
   border-radius: 8px;
+
+  @media screen and (max-width: 768px) {
+    padding: 3rem;
+  }
 `;
 
 export const Description = styled.h4`
@@ -29,10 +36,12 @@ export const InputContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 24px;
 
   input {
     height: 52px;
-    width: 558px;
+    width: 100%;
+    max-width: 558px;
     font-size: 1rem;
     border-bottom: 2px solid ${({ theme }) => theme.colors.outlineGrayDark};
   }
@@ -49,15 +58,12 @@ export const Input = styled(BaseInput)`
   &.MuiInput-underline:hover:not(.Mui-disabled):before {
     content: none;
   }
-
-  input::placeholder {
-    color: ${({ theme }) => theme.colors.textColorPrimary};
-  }
 `;
 
 export const Select = styled(BaseSelect)`
   /* Add your styles here */
-  width: 558px;
+  width: 100%;
+  max-width: 558px;
   background-color: white;
 
   border-bottom: 2px solid ${({ theme }) => theme.colors.outlineGrayDark};
@@ -84,17 +90,26 @@ export const Select = styled(BaseSelect)`
   .MuiSelect-icon {
     color: ${({ theme }) => theme.colors.textColorPrimary};
   }
-
-  .MuiSelect-root::placeholder {
-    color: ${({ theme }) => theme.colors.textColorPrimary};
-  }
 `;
 
 export const CepAddress = styled.p`
   width: 100%;
   padding: 0 32px;
-  margin: 42px 0;
+  margin: 21px 0;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.textColorPrimary};
   font-weight: 400;
+`;
+
+export const SpanError = styled.span`
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+`;
+
+export const Field = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
 `;

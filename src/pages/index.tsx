@@ -19,7 +19,6 @@ import { EnterpriseWithAddress } from "../api/get-enterprise-by-id";
 
 export default function Home() {
     const [enterprises, setEnterprises] = useState<EnterpriseWithAddress[]>([]);
-    const [isHome, setIsHome] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
 
@@ -46,19 +45,13 @@ export default function Home() {
 
 
     useEffect(() => {
-        // Enterprises()
+
         console.log(enterprisesList);
     }, [enterprisesList])
 
     function handleNewEnterprise() {
         router.push("/register-enterprise")
-        // setIsHome(false);
     }
-
-    function handleHome() {
-        setIsHome(true);
-    }
-
     return (
         <>
             <Head>
@@ -66,38 +59,33 @@ export default function Home() {
             </Head>
 
             <main>
-                {isHome &&
-                    <>
-                        <Header
-                            title="Empreendimentos"
-                            button={true}
-                            IconReturn={false}
-                            PushButton={handleNewEnterprise}
-                            PushButtonReturn={handleHome}
-                        />
-                        {enterprisesList ? <ContainertLupa>
-                            <ContentLupa>
-                                <Search setEnterprises={setEnterprises} enterprises={enterprisesList} />
-                            </ContentLupa>
-                        </ContainertLupa> : (
-                            <SearchContainer>
-                                <Skeleton variant="rectangular" height={30} />
-                            </SearchContainer>
+                <Header
+                    title="Empreendimentos"
+                    button={true}
+                    IconReturn={false}
+                    PushButton={handleNewEnterprise}
+                />
+                {enterprisesList ? <ContainertLupa>
+                    <ContentLupa>
+                        <Search setEnterprises={setEnterprises} enterprises={enterprisesList} />
+                    </ContentLupa>
+                </ContainertLupa> : (
+                    <SearchContainer>
+                        <Skeleton variant="rectangular" height={30} />
+                    </SearchContainer>
 
 
-                        )}
-                        {/* {handleSearch.slice(0, rowsPerPage).map((data: any) => {
+                )}
+                {/* {handleSearch.slice(0, rowsPerPage).map((data: any) => {
                             return (
                                 <Enterprise key={data.id} enterprise={data} />
                             )
                         })} */}
 
-                        {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
-                            <Enterprise key={data.id} enterprise={data} />
-                        ))}
-                        {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)} />}
-                    </>
-                }
+                {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
+                    <Enterprise key={data.id} enterprise={data} />
+                ))}
+                {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)} />}
             </main>
         </>
     )

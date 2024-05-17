@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 
 // search input
@@ -49,4 +50,3 @@ export const FormContainer = styled.form`
   gap:33px;
   padding: 48px 0;
 `;
-

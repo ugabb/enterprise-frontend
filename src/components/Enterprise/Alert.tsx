@@ -13,7 +13,7 @@ interface DeleteAlertProps {
 
 const DeleteAlert = ({ setOpenModalDelete, enterpriseId }: DeleteAlertProps) => {
 
-    const { mutateAsync: deleteEnterpriseByIdFn, isPending, isSuccess, } = useMutation({
+    const { mutateAsync: deleteEnterpriseByIdFn, isPending, isSuccess, error } = useMutation({
         mutationKey: ["delete-enterprise", enterpriseId],
         mutationFn: deleteEnterpriseById,
         onSuccess() {
@@ -30,7 +30,7 @@ const DeleteAlert = ({ setOpenModalDelete, enterpriseId }: DeleteAlertProps) => 
 
     useEffect(() => {
         if (isPending) {
-            toast.loading("Atualizando empreendimento...", {
+            toast.loading("Excluíndo empreendimento...", {
                 id: "loading-delete-enterprise"
             })
         } else {

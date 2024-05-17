@@ -1,12 +1,11 @@
 import axios from "axios";
-import { env } from "../env";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-api.interceptors.request.use(async (config) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+// api.interceptors.request.use(async (config) => {
+//   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  return config;
-});
+//   return config;
+// });

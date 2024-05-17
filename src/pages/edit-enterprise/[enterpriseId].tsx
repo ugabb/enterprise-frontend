@@ -21,7 +21,8 @@ import toast from 'react-hot-toast'
 
 
 const formSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, {message: "Nome não pode ser vazio"}),
+  ri_number: z.string().optional(),
   status: z.enum(["SOON_RELEASE", "RELEASE", "iN_PROGRESS", "READY"]),
   purpose: z.enum(["residencial", "commercial"]),
   address: z.object({
@@ -30,7 +31,7 @@ const formSchema = z.object({
     street: z.string(),
     state: z.string(),
     number: z.string(),
-    cep: z.string()
+    cep: z.string().min(8).max(9)
   })
 })
 
@@ -51,24 +52,6 @@ export interface AddressResponse {
   siafi: string;
 }
 
-
-// {
-//     "_id": "PA01",
-//     "name": "Sirius Vila Bastos",
-//     "status": "RELEASE",
-//     "purpose": "HOME",
-//     "ri_number": "123321",
-//     "address": {
-//       "district": "Vila Bastos",
-//       "city": "Santo André",
-//       "street": "Rua Doutor Messuti",
-//       "state": "SP",
-//       "number": "339",
-//       "cep": "60000000"
-//     }
-//   },
-
-
 const EditEnterprise = () => {
   const [enterprise, setEnterprise] = useState({});
   const router = useRouter()
@@ -79,33 +62,28 @@ const EditEnterprise = () => {
   const { data: enterpriseData } = useQuery({
     queryKey: [enterpriseId],
     queryFn: () => getEnterpriseById(enterpriseId as string),
-    // enabled: !!enterpriseId, // somente vai fazer a requisição se o enterpriseId existir
+    enabled: !!enterpriseId, // somente vai fazer a requisição se o enterpriseId existir
   })
-
-  console.log(enterpriseData)
-  function handleHereNewEnterprise() {
-    console.log('handleHereNewEnterprise')
-  }
 
   function handleHome() {
     router.push('/')
   }
 
-  const { register, handleSubmit, control, setValue, formState: { errors: formError } } = useForm<FormType>({
+  const { register, handleSubmit, control, setValue, formState: { errors: formError,  } } = useForm<FormType>({
     resolver: zodResolver(formSchema),
-    values: {
-      name: enterpriseData?.name ?? "",
-      address: {
-        cep: enterpriseData?.address?.cep ?? "",
-        city: enterpriseData?.address?.city ?? "",
-        district: enterpriseData?.address?.district ?? "",
-        state: enterpriseData?.address?.state ?? "",
-        street: enterpriseData?.address?.street ?? "",
-        number: enterpriseData?.address?.number ?? ""
-      },
-      status: enterpriseData?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY",
-      purpose: enterpriseData?.purpose as "residencial" | "commercial",
-    }
+    // defaultValues: {
+    //   name: enterpriseData?.name as string,
+    //   address: {
+    //     cep: enterpriseData?.address?.cep as string,
+    //     city: enterpriseData?.address?.city as string,
+    //     district: enterpriseData?.address?.district as string,
+    //     state: enterpriseData?.address?.state as string,
+    //     street: enterpriseData?.address?.street as string,
+    //     number: enterpriseData?.address?.number as string
+    //   },
+    //   status: enterpriseData?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY",
+    //   purpose: enterpriseData?.purpose as "residencial" | "commercial",
+    // }
   });
 
   const { mutateAsync: updateEnterpriseFn, isPending, isSuccess, error } = useMutation({
@@ -130,13 +108,21 @@ const EditEnterprise = () => {
     }
   }, [isPending])
 
+  if (error) {
+    toast.error(error.message)
+  }
+
+  if (formError) {
+    console.log("formError:", formError);
+
+  }
+
   const Submit: SubmitHandler<FormType> = async ({
     address,
     name,
     purpose,
     status,
   }: FormType) => {
-
 
     try {
       await updateEnterpriseFn({
@@ -188,11 +174,10 @@ const EditEnterprise = () => {
         title="Editar Empreendimento"
         button={true}
         IconReturn={true}
-        PushButton={handleHereNewEnterprise}
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        <Form control={control} formError={formError} register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} />
+        <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} />
         <DefaultButton type='submit' title={"Editar"} />
       </FormContainer>
     </>

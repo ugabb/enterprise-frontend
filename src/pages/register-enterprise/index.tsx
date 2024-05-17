@@ -23,7 +23,7 @@ import { queryClient } from '../../lib/react-query'
 
 
 const formSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, { message: "Nome não pode ser vazio" }),
   ri_number: z.string().optional(),
   status: z.enum(["SOON_RELEASE", "RELEASE", "iN_PROGRESS", "READY"]),
   purpose: z.enum(["residencial", "commercial"]),
@@ -65,16 +65,15 @@ const RegisterEnterprise = () => {
   const [address, setAddress] = useState<Address | null>(null);
   const router = useRouter()
 
-  function handleHereNewEnterprise() {
-    console.log('handleHereNewEnterprise')
-  }
-
   function handleHome() {
     router.push('/')
   }
 
   const { register, handleSubmit, setValue, formState: { errors: formError }, control } = useForm<FormType>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+
   })
 
   const { mutateAsync: registerEnterpriseFn, isPending, isSuccess, error } = useMutation({
@@ -109,7 +108,7 @@ const RegisterEnterprise = () => {
   }
 
   if (formError) {
-    console.log("formError:",formError);
+    console.log("formError:", formError);
 
   }
 
@@ -150,7 +149,6 @@ const RegisterEnterprise = () => {
       }
 
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
-      console.log(response);
       const addressResponse: AddressResponse = response.data
       setValue('address', {
         cep: addressResponse.cep,
@@ -167,6 +165,9 @@ const RegisterEnterprise = () => {
         state: addressResponse.uf,
         street: addressResponse.logradouro,
       })
+      if (response.status === 400) {
+        toast.error("Erro ao buscar CEP")
+      }
     }
   }
 
@@ -177,7 +178,6 @@ const RegisterEnterprise = () => {
         title="Cadastro de empreendimento"
         button={true}
         IconReturn={true}
-        PushButton={handleHereNewEnterprise}
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >

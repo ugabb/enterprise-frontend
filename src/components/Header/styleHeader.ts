@@ -10,15 +10,23 @@ export const HeaderContainerAll = styled.header<{ return: boolean }>`
   align-items: center;
   justify-content: space-between;
 
+  @media screen and (max-width: 768px) {
+    padding: ${(props) => (props.return ? `28px 30px` : `0 2rem`)};
+  }
   padding: ${(props) => (props.return ? `28px 157px` : `0 10rem`)};
 `;
 
 export const BoxAdd = styled.div<{ return: boolean }>`
   width: ${(props) => (props.return ? `92%` : `100%`)};
+  min-height: 30px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: 320px) {
+    flex-direction: column;
+  }
 
   button {
     width: 12rem;

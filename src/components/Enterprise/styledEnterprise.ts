@@ -6,12 +6,13 @@ export const ContainerHome = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 2rem;
+  padding: 1rem;
 `;
 
 export const ContentHome = styled.div`
-  width: 80%;
-  height: 8rem;
+  width: 100%;
+  max-width: 80%;
+  height: auto;
   background: #ffffff;
   border-radius: 8px;
   display: flex;
@@ -21,30 +22,39 @@ export const ContentHome = styled.div`
   padding: 2rem 3.4rem;
   box-shadow: 0px 2px 4px rgba(48, 46, 69, 0.06);
 
+  @media screen and (min-width: 768px) {
+    padding: 1rem 2rem;
+    flex-direction: row;
+  }
+
   section {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     width: 100%;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
 
     p {
       color: rgba(109, 108, 123, 1);
       font-size: 14px;
       font-weight: 400;
       font-family: Inter, sans-serif;
+      margin-top: 1rem;
+
+      @media screen and (max-width: 768px) {
+        margin-top: 0;
+      }
     }
   }
-
-  div {
-    display: flex;
-    justify-content: end;
-  }
 `;
+
 export const ContentStatus = styled.div`
   height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 1rem;
+  margin-top: 1rem;
 
   span {
     display: flex;
@@ -60,6 +70,10 @@ export const ContentStatus = styled.div`
     font-family: Inter, sans-serif;
     font-weight: 400;
     font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
     color: rgba(48, 46, 69, 1);
     transition: all 0.2s;
 
@@ -67,22 +81,26 @@ export const ContentStatus = styled.div`
       background: rgba(142, 133, 255, 1);
       color: #fff;
     }
+
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+    }
   }
+`;
+
+export const EnterpriseName = styled.h4`
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: rgba(48, 46, 69, 1);
 `;
 
 export const BoxNameEnterprise = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: end;
-  margin-bottom: 1rem;
+  flex-direction: column;
 
-  span {
-    font-family: Inter, sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    color: #302e45;
-    margin-right: 1.2rem;
-  }
+  justify-content: center;
+  margin-bottom: 1rem;
 
   img {
     cursor: pointer;
@@ -98,10 +116,26 @@ export const BoxNameEnterprise = styled.div`
   }
 `;
 
+export const SectionContainer = styled.section`
+  display: flex;
+ 
+
+  @media screen and (min-width: 768px) {
+    align-items: end;
+  }
+`;
+
+export const StatsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Action = styled.div`
   display: flex;
+  padding-top: 10px;
   gap: 10px;
 `;
+
 export const Icon = styled.img`
   height: 18px;
   width: 18px;
@@ -148,9 +182,5 @@ export const Alert = styled(BaseAlert)`
       background-color: #ef5350;
       color: ${({ theme }) => theme.colors.bgWhite};
     }
-  }
-
-  div {
-    margin: 0 auto;
   }
 `;

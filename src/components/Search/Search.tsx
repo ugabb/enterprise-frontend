@@ -24,7 +24,7 @@ const Search = ({ enterprises, setEnterprises }: SearchProps) => {
                 id="standard-adornment-password"
                 onChange={(e) => handleSearch(e.target.value, enterprises)}
                 startAdornment={
-                    <InputAdornment position="start" >
+                    <InputAdornment position="start">
                         <IconButton type="submit" aria-label="search">
                             <img src="/images/icon-lupa.svg" alt="Icone Lupa" />
                             Buscar

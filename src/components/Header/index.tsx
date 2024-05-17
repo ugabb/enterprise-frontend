@@ -11,8 +11,8 @@ interface HeaderProps {
     title: string,
     button: Boolean,
     IconReturn: Boolean,
-    PushButton: () => void,
-    PushButtonReturn: () => void
+    PushButton?: () => void,
+    PushButtonReturn?: () => void
 }
 
 

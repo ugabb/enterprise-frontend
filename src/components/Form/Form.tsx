@@ -20,8 +20,6 @@ interface FormProps {
 const Form = ({ register, handleGetCEP, enterprise, address, formError, control }: FormProps) => {
     const router = useRouter()
     const isRegisterEnterprise = router.pathname === '/register-enterprise'
-    console.log(formError.name);
-
     return (
         <FormContainer>
             <Description>Informações</Description>
@@ -30,7 +28,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                     <Controller
                         name="status"
                         control={control}
-                        defaultValue={enterprise?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY" || ""}
+                        defaultValue={enterprise?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY"|| ""}
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
@@ -46,23 +44,27 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                         )}
                     />
                 ) :
-                    (<Skeleton variant="rectangular" width={558} height={44} />)
+                    (<Skeleton variant="rectangular" width={"100%"} height={44} />)
                 }
                 {(enterprise?.name || isRegisterEnterprise) ? (
                     <>
                         <Controller
                             name='name'
                             control={control}
-                            render={({ field }) => (
+                            rules={{
+                                required: true
+                            }}
+                            defaultValue={enterprise?.name ?? undefined}
+                            render={({ field, fieldState: { error } }) => (
                                 <Field>
                                     <Input placeholder='Nome do Empreendimento' {...field} />
-                                    {formError?.name?.message === "Required" && <SpanError>O nome do empreendimento é necessário</SpanError>}
+                                    {error?.message && <SpanError>O nome do empreendimento é necessário</SpanError>}
                                 </Field>
                             )}
 
                         />
                     </>
-                ) : (<Skeleton variant="rectangular" width={558} height={44} />)}
+                ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
                 {(enterprise?.purpose || isRegisterEnterprise) ? (
                     <Controller
                         name='purpose'
@@ -83,21 +85,23 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
 
                     />
                 ) :
-                    (<Skeleton variant="rectangular" width={558} height={44} />)
+                    (<Skeleton variant="rectangular" width={"100%"} height={44} />)
                 }
                 {(enterprise?.address.cep || isRegisterEnterprise) ? (
                     <Controller
-                        name='name'
+                        name='address.cep'
                         control={control}
+                        rules={{ required: true }}
+                        defaultValue={enterprise?.address.cep ?? undefined}
                         render={({ field: { onChange } }) => (
                             <Field>
                                 <Input {...register("address.cep")} placeholder='CEP' onChange={(e) => handleGetCEP(e.target.value)} />
-                                {formError?.address?.number && <SpanError>Digite o número do CEP</SpanError>}
+                                {formError?.address?.cep && <SpanError>Digite o número do CEP</SpanError>}
                             </Field>
                         )}
                     />
 
-                ) : (<Skeleton variant="rectangular" width={558} height={44} />)}
+                ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
                 {address &&
                     <CepAddress>{address.street}<br /> {address.city} <br /> {address.district}<br /> {address.state}</CepAddress>
                 }
@@ -106,9 +110,11 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                     <Controller
                         name='address.number'
                         control={control}
+                        rules={{ required: true }}
+                        defaultValue={enterprise?.address.number ?? undefined}
                         render={({ field }) => (
                             <Field>
-                                <Input placeholder='Número' {...register("address.number", { required: true })} {...field} />
+                                <Input placeholder='Número' {...field} />
                                 {formError?.address?.number && <SpanError>Digite o número</SpanError>}
                             </Field>
                         )}
@@ -116,7 +122,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                     />
 
 
-                ) : (<Skeleton variant="rectangular" width={558} height={44} />)}
+                ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
             </InputContainer>
 
         </FormContainer>

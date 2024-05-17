@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import DeleteAlert from './Alert';
-import { ContainerHome, ContentHome, BoxNameEnterprise, ContentStatus, Icon, Action, Modal } from './styledEnterprise';
+import { ContainerHome, ContentHome, BoxNameEnterprise, ContentStatus, Icon, Action, Modal, EnterpriseName, SectionContainer } from './styledEnterprise';
 import { useRouter } from 'next/dist/client/router';
 
-interface EntrepriseProps {
+export interface EntrepriseProps {
     enterprise: {
         id: string,
         name: string,
@@ -57,31 +57,32 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
                 }
                 <section>
                     <BoxNameEnterprise>
-                        <span>{enterprise.name}</span>
+                        <EnterpriseName>{enterprise.name}</EnterpriseName>
+                        <p>{enterprise.address.street}, {enterprise.address.number} - {enterprise.address.district}, {enterprise.address.state}</p>
                     </BoxNameEnterprise>
-
-                    <ContentStatus>
-                        <span>{StatusMap[status]}</span>
-                        <span>{purposeMap[purpose]}</span>
-                    </ContentStatus>
                 </section>
 
                 <section>
-                    <p>{enterprise.address.street}, {enterprise.address.number} - {enterprise.address.district}, {enterprise.address.state}</p>
-                    <Action>
-                        <Icon
-                            onClick={() => router.push(`/edit-enterprise/${enterprise.id}`)}
-                            src="/images/Vector.svg"
-                            alt="Icone de Lapis"
-                        />
-                        <Icon
-                            onClick={() => {
-                                setOpenModalDelete(true);
-                            }}
-                            src="/images/Vector-1.svg"
-                            alt="Icone de Lixeira"
-                        />
-                    </Action>
+                    <SectionContainer>
+                        <ContentStatus>
+                            <span>{StatusMap[status]}</span>
+                            <span>{purposeMap[purpose]}</span>
+                        </ContentStatus>
+                        <Action>
+                            <Icon
+                                onClick={() => router.push(`/edit-enterprise/${enterprise.id}`)}
+                                src="/images/Vector.svg"
+                                alt="Icone de Lapis"
+                            />
+                            <Icon
+                                onClick={() => {
+                                    setOpenModalDelete(true);
+                                }}
+                                src="/images/Vector-1.svg"
+                                alt="Icone de Lixeira"
+                            />
+                        </Action>
+                    </SectionContainer>
                 </section>
 
             </ContentHome>
