@@ -1,5 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Select as BaseSelect, Input as BaseInput } from "@material-ui/core";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+}
+`;
+
 
 export const FormContainer = styled.div`
   display: flex;
@@ -20,6 +30,9 @@ export const FormContainer = styled.div`
   @media screen and (max-width: 768px) {
     padding: 3rem;
   }
+
+  animation: ${fadeIn} 1s ease-in-out;
+  
 `;
 
 export const Description = styled.h4`

@@ -1,12 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Alert as BaseAlert, Modal as BaseModal } from "@material-ui/core";
-import { lighten } from "polished";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+}
+`;
 
 export const ContainerHome = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 1rem;
+  animation: ${fadeIn} 1s ease-in-out;
+  
 `;
 
 export const ContentHome = styled.div`

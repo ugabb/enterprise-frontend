@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+}
+`;
+
 
 export const HeaderContainerAll = styled.header<{ return: boolean }>`
   width: 100%;
@@ -9,6 +19,9 @@ export const HeaderContainerAll = styled.header<{ return: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  animation: ${fadeIn} 1s ease-in-out;
+  
 
   @media screen and (max-width: 768px) {
     padding: ${(props) => (props.return ? `28px 30px` : `0 2rem`)};

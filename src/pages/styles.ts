@@ -1,5 +1,15 @@
 
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+}
+`;
+
 
 // search input
 export const ContainertLupa = styled.div`
@@ -9,6 +19,9 @@ export const ContainertLupa = styled.div`
   justify-content: center;
   margin-top: 1.5rem;
   margin-bottom: 1rem;
+
+  animation: ${fadeIn} 1s ease-in-out;
+  
 `;
 
 export const ContentLupa = styled.div`
