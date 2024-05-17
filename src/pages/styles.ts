@@ -47,6 +47,6 @@ export const FormContainer = styled.form`
   align-items: center;
   justify-content: center;
   gap:33px;
-  padding-top: 48px;
+  padding: 48px 0;
 `;
 

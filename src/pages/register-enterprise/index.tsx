@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { useRouter } from 'next/dist/client/router'
 import Form from '../../components/Form/Form'
 import { FormContainer } from '../styles'
 import DefaultButton from '../../components/DefaultButton'
 
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 // zod para tipagem do formulário
 import { infer, z } from "zod"
@@ -14,12 +14,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 // react-hook-form para tratar do formulário
 import { useForm, SubmitHandler } from "react-hook-form"
 import { isValidCEP } from '@brazilian-utils/brazilian-utils'
+import { api } from '../../lib/axios'
+import { registerEnterprise } from '../../api/register-enterprise'
+import { useMutation } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+
 
 
 const formSchema = z.object({
+  name: z.string(),
+  ri_number: z.string().optional(),
   status: z.enum(["SOON_RELEASE", "RELEASE", "iN_PROGRESS", "READY"]),
   purpose: z.enum(["residencial", "commercial"]),
-  addrees: z.object({
+  address: z.object({
     district: z.string(),
     city: z.string(),
     street: z.string(),
@@ -28,7 +35,6 @@ const formSchema = z.object({
     cep: z.string()
   })
 })
-
 export type FormType = z.infer<typeof formSchema>
 
 
@@ -46,26 +52,17 @@ export interface AddressResponse {
   siafi: string;
 }
 
-
-// {
-//     "_id": "PA01",
-//     "name": "Sirius Vila Bastos",
-//     "status": "RELEASE",
-//     "purpose": "HOME",
-//     "ri_number": "123321",
-//     "address": {
-//       "district": "Vila Bastos",
-//       "city": "Santo André",
-//       "street": "Rua Doutor Messuti",
-//       "state": "SP",
-//       "number": "339",
-//       "cep": "60000000"
-//     }
-//   },
-
+export interface Address {
+  district: string;
+  city: string;
+  street: string;
+  state: string;
+  cep: string;
+}
 
 const RegisterEnterprise = () => {
   const [enterprise, setEnterprise] = useState({});
+  const [address, setAddress] = useState<Address | null>(null);
   const router = useRouter()
 
   function handleHereNewEnterprise() {
@@ -76,12 +73,59 @@ const RegisterEnterprise = () => {
     router.push('/')
   }
 
-  const { register, handleSubmit, formState: { isValid }, setValue } = useForm<FormType>({
+  const { register, handleSubmit, getValues, setValue } = useForm<FormType>({
     resolver: zodResolver(formSchema)
   })
 
-  const Submit: SubmitHandler<FormType> = (data: FormType) => {
-    console.log(data)
+  const { mutateAsync: registerEnterpriseFn, isPending, isSuccess } = useMutation({
+    mutationKey: ["createEnterprise"],
+    mutationFn: registerEnterprise,
+
+  })
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Empreendimento criado com sucesso")
+      router.push('/')
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (isPending) {
+      toast.loading("Criando empreendimento...",{
+        id: "loading-update-enterprise"
+      })
+    }else{
+      toast.dismiss("loading-update-enterprise")
+    }
+  }, [isPending])
+
+  const Submit: SubmitHandler<FormType> = async ({
+    address,
+    name,
+    purpose,
+    status,
+    ri_number
+  }: FormType) => {
+    try {
+      await registerEnterpriseFn({
+        address: {
+          cep: address.cep,
+          city: address.city,
+          district: address.district,
+          state: address.state,
+          street: address.street,
+          number: address.number
+        },
+        name: name,
+        purpose: purpose,
+        status: status,
+        ri_number: ri_number ?? ""
+      })
+    } catch (error) {
+      console.log(error)
+
+    }
   }
 
   const handleGetCEP = async (cep: string) => {
@@ -89,12 +133,11 @@ const RegisterEnterprise = () => {
       if (cep.includes("-")) {
         cep.split("-").join("")
       }
-      console.log(cep);
 
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
       console.log(response);
       const addressResponse: AddressResponse = response.data
-      setValue('addrees', {
+      setValue('address', {
         cep: addressResponse.cep,
         city: addressResponse.localidade,
         district: addressResponse.bairro,
@@ -102,8 +145,14 @@ const RegisterEnterprise = () => {
         street: addressResponse.logradouro,
         number: ""
       });
+      setAddress({
+        cep: addressResponse.cep,
+        city: addressResponse.localidade,
+        district: addressResponse.bairro,
+        state: addressResponse.uf,
+        street: addressResponse.logradouro,
+      })
     }
-
   }
 
 
@@ -117,7 +166,7 @@ const RegisterEnterprise = () => {
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        <Form register={register} handleGetCEP={handleGetCEP} />
+        <Form register={register} handleGetCEP={handleGetCEP} address={address} />
         <DefaultButton type='submit' title={"Cadastrar"} />
       </FormContainer>
     </>

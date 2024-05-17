@@ -21,9 +21,30 @@ interface EntrepriseProps {
     }
 }
 
+export type StatusType =
+    | 'SOON_RELEASE'
+    | 'RELEASE'
+    | 'iN_PROGRESS'
+    | 'READY'
+
+const StatusMap: Record<StatusType, string> = {
+    SOON_RELEASE: 'Breve lançamento',
+    RELEASE: 'Lançamento',
+    iN_PROGRESS: 'Em obras',
+    READY: 'Pronto para morar'
+}
+
+export type PurposeType = 'residencial' | 'commercial'
+const purposeMap: Record<PurposeType, string> = {
+    residencial: 'Residencial',
+    commercial: 'Comercial'
+}
+
 const Enterprise = ({ enterprise }: EntrepriseProps) => {
     const [openModalDelete, setOpenModalDelete] = useState(false);
     const router = useRouter();
+    const status = enterprise.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY";
+    const purpose = enterprise.purpose as "residencial" | "commercial";
     return (
         <ContainerHome key={enterprise.id}>
             <ContentHome>
@@ -38,8 +59,8 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
                     </BoxNameEnterprise>
 
                     <ContentStatus>
-                        <span>{enterprise.status === "RELEASE" ? "Lançamento" : enterprise.status}</span>
-                        <span>{enterprise.purpose === "HOME" ? "Residencial" : enterprise.purpose}</span>
+                        <span>{StatusMap[status]}</span>
+                        <span>{purposeMap[purpose]}</span>
                     </ContentStatus>
                 </section>
 

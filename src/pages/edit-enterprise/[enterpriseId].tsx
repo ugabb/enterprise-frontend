@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { useRouter } from 'next/dist/client/router'
 import Form from '../../components/Form/Form'
 import { FormContainer } from '../styles'
 import DefaultButton from '../../components/DefaultButton'
 
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 // zod para tipagem do formulário
 import { infer, z } from "zod"
@@ -14,12 +14,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 // react-hook-form para tratar do formulário
 import { useForm, SubmitHandler } from "react-hook-form"
 import { isValidCEP } from '@brazilian-utils/brazilian-utils'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { getEnterpriseById } from '../../api/get-enterprise-by-id'
+import { updateEnterprise } from '../../api/update.enterprise'
+import toast from 'react-hot-toast'
 
 
 const formSchema = z.object({
+  name: z.string(),
   status: z.enum(["SOON_RELEASE", "RELEASE", "iN_PROGRESS", "READY"]),
   purpose: z.enum(["residencial", "commercial"]),
-  addrees: z.object({
+  address: z.object({
     district: z.string(),
     city: z.string(),
     street: z.string(),
@@ -68,6 +73,16 @@ const EditEnterprise = () => {
   const [enterprise, setEnterprise] = useState({});
   const router = useRouter()
 
+  const { enterpriseId } = router.query
+
+
+  const { data: enterpriseData } = useQuery({
+    queryKey: [enterpriseId],
+    queryFn: () => getEnterpriseById(enterpriseId as string),
+    // enabled: !!enterpriseId, // somente vai fazer a requisição se o enterpriseId existir
+  })
+
+  console.log(enterpriseData)
   function handleHereNewEnterprise() {
     console.log('handleHereNewEnterprise')
   }
@@ -77,11 +92,72 @@ const EditEnterprise = () => {
   }
 
   const { register, handleSubmit, formState: { isValid }, setValue } = useForm<FormType>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    values: {
+      name: enterpriseData?.name ?? "",
+      address: {
+        cep: enterpriseData?.address?.cep ?? "",
+        city: enterpriseData?.address?.city ?? "",
+        district: enterpriseData?.address?.district ?? "",
+        state: enterpriseData?.address?.state ?? "",
+        street: enterpriseData?.address?.street ?? "",
+        number: enterpriseData?.address?.number ?? ""
+      },
+      status: enterpriseData?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY",
+      purpose: enterpriseData?.purpose as "residencial" | "commercial",
+    }
+  });
+
+  const { mutateAsync: updateEnterpriseFn, isPending, isSuccess } = useMutation({
+    mutationKey: ["updateEnterprise", enterpriseId],
+    mutationFn: updateEnterprise,
+
   })
 
-  const Submit: SubmitHandler<FormType> = (data: FormType) => {
-    console.log(data)
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Empreendimento atualizado com sucesso")
+      router.push('/')
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (isPending) {
+      toast.loading("Atualizando empreendimento...",{
+        id: "loading-update-enterprise"
+      })
+    }else{
+      toast.dismiss("loading-update-enterprise")
+    }
+  }, [isPending])
+
+  const Submit: SubmitHandler<FormType> = async ({
+    address,
+    name,
+    purpose,
+    status,
+  }: FormType) => {
+
+
+    try {
+      await updateEnterpriseFn({
+        address: {
+          cep: address.cep,
+          city: address.city,
+          district: address.district,
+          state: address.state,
+          street: address.street,
+          number: address.number
+        },
+        name: name,
+        purpose: purpose,
+        status: status,
+        id: enterpriseId as string
+      })
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleGetCEP = async (cep: string) => {
@@ -94,7 +170,7 @@ const EditEnterprise = () => {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
       console.log(response);
       const addressResponse: AddressResponse = response.data
-      setValue('addrees', {
+      setValue('address', {
         cep: addressResponse.cep,
         city: addressResponse.localidade,
         district: addressResponse.bairro,
@@ -117,7 +193,7 @@ const EditEnterprise = () => {
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        <Form register={register} handleGetCEP={handleGetCEP} />
+        <Form register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} />
         <DefaultButton type='submit' title={"Editar"} />
       </FormContainer>
     </>

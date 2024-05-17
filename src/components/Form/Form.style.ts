@@ -89,3 +89,12 @@ export const Select = styled(BaseSelect)`
     color: ${({ theme }) => theme.colors.textColorPrimary};
   }
 `;
+
+export const CepAddress = styled.p`
+  width: 100%;
+  padding: 0 32px;
+  margin: 42px 0;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.textColorPrimary};
+  font-weight: 400;
+`;
