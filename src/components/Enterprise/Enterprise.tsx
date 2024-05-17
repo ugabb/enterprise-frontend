@@ -1,5 +1,4 @@
-import { Alert, Button } from '@material-ui/core';
-import React, { useState } from 'react'
+import { useState } from 'react';
 
 import DeleteAlert from './Alert';
 import { ContainerHome, ContentHome, BoxNameEnterprise, ContentStatus, Icon, Action, Modal } from './styledEnterprise';
@@ -7,7 +6,7 @@ import { useRouter } from 'next/dist/client/router';
 
 interface EntrepriseProps {
     enterprise: {
-        id: number,
+        id: string,
         name: string,
         address: {
             street: string,
@@ -45,12 +44,15 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
     const router = useRouter();
     const status = enterprise.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY";
     const purpose = enterprise.purpose as "residencial" | "commercial";
+
+    const enterpriseId = enterprise.id;
+
     return (
         <ContainerHome key={enterprise.id}>
             <ContentHome>
                 {openModalDelete &&
                     <Modal open={openModalDelete} onClose={setOpenModalDelete} >
-                        <DeleteAlert DeleteEnterprise={() => { }} setOpenModalDelete={setOpenModalDelete} />
+                        <DeleteAlert enterpriseId={enterpriseId} setOpenModalDelete={setOpenModalDelete} />
                     </Modal>
                 }
                 <section>
