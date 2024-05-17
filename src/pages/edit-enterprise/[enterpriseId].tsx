@@ -21,7 +21,7 @@ import toast from 'react-hot-toast'
 
 
 const formSchema = z.object({
-  name: z.string().min(1, {message: "Nome não pode ser vazio"}),
+  name: z.string().min(1, { message: "Nome não pode ser vazio" }),
   ri_number: z.string().optional(),
   status: z.enum(["SOON_RELEASE", "RELEASE", "iN_PROGRESS", "READY"]),
   purpose: z.enum(["residencial", "commercial"]),
@@ -30,7 +30,7 @@ const formSchema = z.object({
     city: z.string(),
     street: z.string(),
     state: z.string(),
-    number: z.string(),
+    number: z.string().min(1, { message: "O número é obrigatório" }),
     cep: z.string().min(8).max(9)
   })
 })
@@ -69,21 +69,8 @@ const EditEnterprise = () => {
     router.push('/')
   }
 
-  const { register, handleSubmit, control, setValue, formState: { errors: formError,  } } = useForm<FormType>({
+  const { register, handleSubmit, control, setValue, formState: { errors: formError,isSubmitting } } = useForm<FormType>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   name: enterpriseData?.name as string,
-    //   address: {
-    //     cep: enterpriseData?.address?.cep as string,
-    //     city: enterpriseData?.address?.city as string,
-    //     district: enterpriseData?.address?.district as string,
-    //     state: enterpriseData?.address?.state as string,
-    //     street: enterpriseData?.address?.street as string,
-    //     number: enterpriseData?.address?.number as string
-    //   },
-    //   status: enterpriseData?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY",
-    //   purpose: enterpriseData?.purpose as "residencial" | "commercial",
-    // }
   });
 
   const { mutateAsync: updateEnterpriseFn, isPending, isSuccess, error } = useMutation({
@@ -178,7 +165,7 @@ const EditEnterprise = () => {
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
         <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} />
-        <DefaultButton type='submit' title={"Editar"} />
+        <DefaultButton type='submit' title={"Editar"} disabled={isSubmitting} />
       </FormContainer>
     </>
   )

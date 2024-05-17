@@ -69,7 +69,7 @@ const RegisterEnterprise = () => {
     router.push('/')
   }
 
-  const { register, handleSubmit, setValue, formState: { errors: formError }, control } = useForm<FormType>({
+  const { register, handleSubmit, setValue, formState: { errors: formError, isSubmitting }, control } = useForm<FormType>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
     reValidateMode: "onSubmit",
@@ -182,7 +182,7 @@ const RegisterEnterprise = () => {
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
         <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} address={address} />
-        <DefaultButton type='submit' title={"Cadastrar"} />
+        <DefaultButton type='submit' title={"Cadastrar"} disabled={isSubmitting} />
       </FormContainer>
     </>
   )
