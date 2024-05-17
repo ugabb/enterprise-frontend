@@ -27,7 +27,6 @@ export async function getEnterprises() {
   const response = await api.get<GetEnterprisesResponse>(
     "/enterprise"
   );
-  console.log(response);
 
   return response.data.enterprises;
 }

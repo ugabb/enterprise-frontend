@@ -12,14 +12,16 @@ import Enterprise from "../components/Enterprise/Enterprise";
 import { useRouter } from "next/dist/client/router";
 import { useQuery } from "@tanstack/react-query";
 import { getEnterprises } from "../api/get-enterprises";
+import { Skeleton } from "@material-ui/core";
+import { SearchContainer } from "../components/Search/styleSearch";
+import { EnterpriseWithAddress } from "../api/get-enterprise-by-id";
 
 
 export default function Home() {
-    const [enterprises, setEnterprises] = useState([]);
+    const [enterprises, setEnterprises] = useState<EnterpriseWithAddress[]>([]);
     const [isHome, setIsHome] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
-    const [search, setSearch] = useState("")
 
     const router = useRouter()
 
@@ -28,8 +30,14 @@ export default function Home() {
         queryFn: getEnterprises,
     })
 
+    useEffect(() => {
+        if (enterprisesList) {
+            setEnterprises(enterprisesList)
+        }
+    }, [enterprisesList])
+
     function numberEnterprises() {
-        setEnterprisesNumber(enterprises.length)
+        setEnterprisesNumber(enterprisesList?.length || 0)
     }
 
     useEffect(() => {
@@ -37,10 +45,10 @@ export default function Home() {
     })
 
 
-    // useEffect(() => {
-    //     // Enterprises()
-    //     console.log(enterprisesList);
-    // }, [enterprisesList])
+    useEffect(() => {
+        // Enterprises()
+        console.log(enterprisesList);
+    }, [enterprisesList])
 
     function handleNewEnterprise() {
         router.push("/register-enterprise")
@@ -50,24 +58,6 @@ export default function Home() {
     function handleHome() {
         setIsHome(true);
     }
-
-
-    async function DeleteEnterprise(value) {
-        await axios.delete(`http://localhost:3001/enterprises/${value}`)
-            .then(() => {
-                setOpenModalDelete(false)
-                Enterprises()
-            }).catch((err) => {
-                window.alert(`Erro ao Deletar, ${err}`)
-            })
-    }
-
-
-    const handleSearch = enterprises.filter((body: any) => {
-        return body.name
-            .toLowerCase()
-            .includes(search.toLocaleLowerCase())
-    })
 
     return (
         <>
@@ -85,22 +75,27 @@ export default function Home() {
                             PushButton={handleNewEnterprise}
                             PushButtonReturn={handleHome}
                         />
-                        <ContainertLupa>
+                        {enterprisesList ? <ContainertLupa>
                             <ContentLupa>
-                                <Search />
+                                <Search setEnterprises={setEnterprises} enterprises={enterprisesList} />
                             </ContentLupa>
-                        </ContainertLupa>
-                        {handleSearch.slice(0, rowsPerPage).map((data: any) => {
+                        </ContainertLupa> : (
+                            <SearchContainer>
+                                <Skeleton variant="rectangular" height={30} />
+                            </SearchContainer>
+
+
+                        )}
+                        {/* {handleSearch.slice(0, rowsPerPage).map((data: any) => {
                             return (
                                 <Enterprise key={data.id} enterprise={data} />
                             )
-                        })}
-                        {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)} />}
+                        })} */}
 
-                        {Array.isArray(enterprisesList) && enterprisesList.map((data: any) => (
+                        {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
                             <Enterprise key={data.id} enterprise={data} />
                         ))}
-
+                        {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)} />}
                     </>
                 }
             </main>
