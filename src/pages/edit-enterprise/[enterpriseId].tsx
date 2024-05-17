@@ -91,7 +91,7 @@ const EditEnterprise = () => {
     router.push('/')
   }
 
-  const { register, handleSubmit, formState: { isValid }, setValue } = useForm<FormType>({
+  const { register, handleSubmit, control, setValue, formState: { errors: formError } } = useForm<FormType>({
     resolver: zodResolver(formSchema),
     values: {
       name: enterpriseData?.name ?? "",
@@ -108,10 +108,9 @@ const EditEnterprise = () => {
     }
   });
 
-  const { mutateAsync: updateEnterpriseFn, isPending, isSuccess } = useMutation({
+  const { mutateAsync: updateEnterpriseFn, isPending, isSuccess, error } = useMutation({
     mutationKey: ["updateEnterprise", enterpriseId],
     mutationFn: updateEnterprise,
-
   })
 
   useEffect(() => {
@@ -123,10 +122,10 @@ const EditEnterprise = () => {
 
   useEffect(() => {
     if (isPending) {
-      toast.loading("Atualizando empreendimento...",{
+      toast.loading("Atualizando empreendimento...", {
         id: "loading-update-enterprise"
       })
-    }else{
+    } else {
       toast.dismiss("loading-update-enterprise")
     }
   }, [isPending])
@@ -193,7 +192,7 @@ const EditEnterprise = () => {
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        <Form register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} />
+        <Form control={control} formError={formError} register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} />
         <DefaultButton type='submit' title={"Editar"} />
       </FormContainer>
     </>
