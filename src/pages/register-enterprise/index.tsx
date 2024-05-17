@@ -18,6 +18,7 @@ import { api } from '../../lib/axios'
 import { registerEnterprise } from '../../api/register-enterprise'
 import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
+import { queryClient } from '../../lib/react-query'
 
 
 
@@ -32,7 +33,7 @@ const formSchema = z.object({
     street: z.string(),
     state: z.string(),
     number: z.string(),
-    cep: z.string()
+    cep: z.string().min(8).max(9)
   })
 })
 export type FormType = z.infer<typeof formSchema>
@@ -61,7 +62,6 @@ export interface Address {
 }
 
 const RegisterEnterprise = () => {
-  const [enterprise, setEnterprise] = useState({});
   const [address, setAddress] = useState<Address | null>(null);
   const router = useRouter()
 
@@ -73,14 +73,17 @@ const RegisterEnterprise = () => {
     router.push('/')
   }
 
-  const { register, handleSubmit, getValues, setValue } = useForm<FormType>({
+  const { register, handleSubmit, setValue, formState: { errors: formError }, control } = useForm<FormType>({
     resolver: zodResolver(formSchema)
   })
 
-  const { mutateAsync: registerEnterpriseFn, isPending, isSuccess } = useMutation({
+  const { mutateAsync: registerEnterpriseFn, isPending, isSuccess, error } = useMutation({
     mutationKey: ["createEnterprise"],
     mutationFn: registerEnterprise,
-
+    onSuccess: () => {
+      // invalidar a query de todos os empreendimentos para que a lista seja atualizada
+      queryClient.invalidateQueries({ queryKey: ['enterprise'] })
+    },
   })
 
   useEffect(() => {
@@ -92,13 +95,25 @@ const RegisterEnterprise = () => {
 
   useEffect(() => {
     if (isPending) {
-      toast.loading("Criando empreendimento...",{
+      toast.loading("Criando empreendimento...", {
         id: "loading-update-enterprise"
       })
-    }else{
+    } else {
       toast.dismiss("loading-update-enterprise")
     }
   }, [isPending])
+
+
+  if (error) {
+    toast.error(error.message)
+  }
+
+  if (formError) {
+    console.log("formError:",formError);
+
+  }
+
+
 
   const Submit: SubmitHandler<FormType> = async ({
     address,
@@ -166,7 +181,7 @@ const RegisterEnterprise = () => {
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        <Form register={register} handleGetCEP={handleGetCEP} address={address} />
+        <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} address={address} />
         <DefaultButton type='submit' title={"Cadastrar"} />
       </FormContainer>
     </>
