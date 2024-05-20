@@ -43,7 +43,7 @@ Use o `.env.local.example` como referência para criar o seu `.env.local`
 
 
 ```yaml
-NEXT_PUBLIC_API_URL="http://localhost:3333" não esqueã de usar a mesma porta do backend
+NEXT_PUBLIC_API_URL="http://localhost:3333" não esquecer de usar a mesma porta do backend
 ```
 
 <h3>Starting</h3>
@@ -51,7 +51,7 @@ NEXT_PUBLIC_API_URL="http://localhost:3333" não esqueã de usar a mesma porta d
 Como rodar o projeto
 
 ```bash
-cd challenge-2024
+cd enterprise-fronted
 yarn install
 yarn dev
 ```
