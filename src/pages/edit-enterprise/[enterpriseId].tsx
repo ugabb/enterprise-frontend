@@ -21,10 +21,6 @@ import toast from 'react-hot-toast'
 import { formSchema, FormType } from '../../components/Form/formType'
 
 
-
-
-
-
 export interface AddressResponse {
   cep: string;
   logradouro: string;
