@@ -76,7 +76,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 }
                 {(enterprise?.address.cep || isRegisterEnterprise) ? (
                     <Field>
-                        <Input {...register("address.cep", { required: true })} placeholder='CEP' onChange={(e) => handleGetCEP(e.target.value)} />
+                        <Input {...register("address.cep", { required: true })} placeholder='CEP' onChange={(e) => handleGetCEP(e.target.value)} defaultValue={enterprise?.address.cep} />
                         {formError?.address?.cep && <SpanError>Digite o número do CEP</SpanError>}
                     </Field>
 
