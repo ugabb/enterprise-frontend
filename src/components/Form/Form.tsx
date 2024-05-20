@@ -1,5 +1,5 @@
 
-import { FormContainer, InputContainer, Select, Input, Description, CepAddress, SpanError, Field } from './Form.style'
+import { FormContainer, InputContainer, Select, Input, Description, CepAddress, SpanError, Field, FormularioContainer } from './Form.style'
 
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form'
 import { FormType } from '../../pages/edit-enterprise/[enterpriseId]'
@@ -21,7 +21,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
     const router = useRouter()
     const isRegisterEnterprise = router.pathname === '/register-enterprise'
     return (
-        <FormContainer>
+        <FormularioContainer>
             <Description>Informações</Description>
             <InputContainer>
                 {(enterprise?.status || isRegisterEnterprise) ? (
@@ -94,7 +94,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
             </InputContainer>
 
-        </FormContainer>
+        </FormularioContainer>
     )
 }
 

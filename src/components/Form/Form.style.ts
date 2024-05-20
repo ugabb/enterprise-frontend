@@ -1,17 +1,33 @@
 import styled, { keyframes } from "styled-components";
 import { Select as BaseSelect, Input as BaseInput } from "@material-ui/core";
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-}
-`;
+import { fadeIn } from "../../styles/styles";
 
 
 export const FormContainer = styled.div`
+  display: flex;
+
+  flex-direction: column;
+  gap: 11px;
+
+  padding: 1rem;
+  margin: 1rem;
+  width: 100%;
+  max-width: 622px;
+  min-height: 606px;
+
+  background-color: white;
+
+  border-radius: 8px;
+
+  @media screen and (max-width: 768px) {
+    padding: 3rem;
+  }
+
+  animation: ${fadeIn} 1s ease-in-out;
+  
+`;
+
+export const FormularioContainer = styled.div`
   display: flex;
 
   flex-direction: column;

@@ -1,14 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { Alert as BaseAlert, Modal as BaseModal } from "@material-ui/core";
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-}
-`;
+import { fadeIn } from "../../styles/styles";
 
 export const ContainerHome = styled.div`
   width: 100%;

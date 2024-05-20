@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import {
     ContainertLupa,
     ContentLupa,
-} from "./styles";
+} from "../styles/styles";
 import Search from "../components/Search/Search";
 import Enterprise from "../components/Enterprise/Enterprise";
 import { useRouter } from "next/dist/client/router";

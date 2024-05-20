@@ -1,13 +1,6 @@
 import styled, { keyframes } from "styled-components";
+import { fadeIn } from "../../styles/styles";
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-}
-`;
 
 
 export const HeaderContainerAll = styled.header<{ return: boolean }>`

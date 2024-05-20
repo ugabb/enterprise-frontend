@@ -41,7 +41,6 @@ const DeleteAlert = ({ setOpenModalDelete, enterpriseId }: DeleteAlertProps) => 
     return (
         <Alert
             color='error'
-            maxWidth="md"
             severity="error"
             action={
                 <div>

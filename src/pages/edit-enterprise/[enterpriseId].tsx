@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { useRouter } from 'next/dist/client/router'
 import Form from '../../components/Form/Form'
-import { FormContainer } from '../styles'
+import { FormContainer } from '../../styles/styles'
 import DefaultButton from '../../components/DefaultButton'
 
 import axios, { AxiosResponse } from 'axios'
