@@ -19,25 +19,7 @@ import { registerEnterprise } from '../../api/register-enterprise'
 import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { queryClient } from '../../lib/react-query'
-
-
-
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Nome não pode ser vazio" }),
-  ri_number: z.string().optional(),
-  status: z.enum(["SOON_RELEASE", "RELEASE", "iN_PROGRESS", "READY"]),
-  purpose: z.enum(["residencial", "commercial"]),
-  address: z.object({
-    district: z.string(),
-    city: z.string(),
-    street: z.string(),
-    state: z.string(),
-    number: z.string(),
-    cep: z.string().min(8).max(9)
-  })
-})
-export type FormType = z.infer<typeof formSchema>
-
+import { formSchema, FormType } from '../../components/Form/formType'
 
 
 export interface AddressResponse {
@@ -71,8 +53,6 @@ const RegisterEnterprise = () => {
 
   const { register, handleSubmit, setValue, formState: { errors: formError, isSubmitting }, control } = useForm<FormType>({
     resolver: zodResolver(formSchema),
-    mode: "onSubmit",
-    reValidateMode: "onSubmit",
 
   })
 
@@ -181,7 +161,7 @@ const RegisterEnterprise = () => {
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        {/* @ts-ignore */}
+        
         <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} address={address} />
         <DefaultButton type='submit' title={"Cadastrar"} disabled={isSubmitting} />
       </FormContainer>

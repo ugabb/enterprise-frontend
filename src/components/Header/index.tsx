@@ -5,8 +5,7 @@ import {
     BoxAdd,
     TitleHeader,
 } from "./styleHeader";
-import { Icon } from "../Enterprise/styledEnterprise";
-
+import Image from "next/image";
 interface HeaderProps {
     title: string,
     button: Boolean,
@@ -29,7 +28,7 @@ export default function Header({
         <HeaderContainerAll return={true}>
             {IconReturn &&
                 <BoxRetur>
-                    <img onClick={PushButtonReturn} src="/images/Return.svg" alt="Icone Retornar" />
+                    <Image onClick={PushButtonReturn} src="/images/Return.svg" alt="Icone Retornar" />
                     <TitleHeader>{title}</TitleHeader>
                 </BoxRetur>
             }

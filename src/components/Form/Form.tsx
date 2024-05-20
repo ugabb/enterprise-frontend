@@ -2,11 +2,11 @@
 import { FormContainer, InputContainer, Select, Input, Description, CepAddress, SpanError, Field, FormularioContainer } from './Form.style'
 
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form'
-import { FormType } from '../../pages/edit-enterprise/[enterpriseId]'
 import { FormControl, MenuItem, Skeleton } from '@material-ui/core'
 import { EnterpriseWithAddress } from '../../api/get-enterprise-by-id'
 import { Address } from '../../pages/register-enterprise'
 import { useRouter } from 'next/dist/client/router'
+import { FormType } from './formType'
 
 interface FormProps {
     register: UseFormRegister<FormType>;
@@ -49,7 +49,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 {(enterprise?.name || isRegisterEnterprise) ? (
                     <Field>
                         <Input placeholder='Nome do Empreendimento' defaultValue={enterprise?.name} {...register("name", { required: "Nome é obrigatório" })} />
-                        {formError?.name?.message && <SpanError>O nome do empreendimento é necessário</SpanError>}
+                        {/* {formError?.name?.message && <SpanError>O nome do empreendimento é necessário</SpanError>} */}
                     </Field>
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
                 {(enterprise?.purpose || isRegisterEnterprise) ? (
@@ -77,7 +77,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 {(enterprise?.address.cep || isRegisterEnterprise) ? (
                     <Field>
                         <Input {...register("address.cep", { required: true })} placeholder='CEP' onChange={(e) => handleGetCEP(e.target.value)} defaultValue={enterprise?.address.cep} />
-                        {formError?.address?.cep && <SpanError>Digite o número do CEP</SpanError>}
+                        {/* {formError?.address?.cep && <SpanError>Digite o número do CEP</SpanError>} */}
                     </Field>
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
@@ -88,7 +88,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
 
                     <Field>
                         <Input placeholder='Número' defaultValue={enterprise?.address.number} {...register("address.number", { required: "Digite o número" })} />
-                        {formError?.address?.number && <SpanError>Digite o número</SpanError>}
+                        {/* {formError?.address?.number && <SpanError>Digite o número</SpanError>} */}
                     </Field>
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
