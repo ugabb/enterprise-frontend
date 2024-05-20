@@ -18,24 +18,11 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { getEnterpriseById } from '../../api/get-enterprise-by-id'
 import { updateEnterprise } from '../../api/update.enterprise'
 import toast from 'react-hot-toast'
+import { formSchema } from '../../components/Form/formType'
+import { FormType } from '../register-enterprise'
 
 
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Nome não pode ser vazio" }),
-  ri_number: z.string().optional(),
-  status: z.enum(["SOON_RELEASE", "RELEASE", "iN_PROGRESS", "READY"]),
-  purpose: z.enum(["residencial", "commercial"]),
-  address: z.object({
-    district: z.string(),
-    city: z.string(),
-    street: z.string(),
-    state: z.string(),
-    number: z.string().min(1, { message: "O número é obrigatório" }),
-    cep: z.string().min(8).max(9)
-  })
-})
 
-export type FormType = z.infer<typeof formSchema>
 
 
 

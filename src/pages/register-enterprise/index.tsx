@@ -71,8 +71,6 @@ const RegisterEnterprise = () => {
 
   const { register, handleSubmit, setValue, formState: { errors: formError, isSubmitting }, control } = useForm<FormType>({
     resolver: zodResolver(formSchema),
-    mode: "onSubmit",
-    reValidateMode: "onSubmit",
 
   })
 
@@ -181,7 +179,7 @@ const RegisterEnterprise = () => {
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        {/* @ts-ignore */}
+        
         <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} address={address} />
         <DefaultButton type='submit' title={"Cadastrar"} disabled={isSubmitting} />
       </FormContainer>
