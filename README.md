@@ -51,7 +51,7 @@ NEXT_PUBLIC_API_URL="http://localhost:3333" não esquecer de usar a mesma porta 
 Como rodar o projeto
 
 ```bash
-cd enterprise-fronted
+cd enterprise-frontend
 yarn install
 yarn dev
 ```
