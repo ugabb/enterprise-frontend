@@ -8,6 +8,9 @@ import { Address } from '../../pages/register-enterprise'
 import { useRouter } from 'next/dist/client/router'
 import { FormType } from './formType'
 
+import Image from "next/image"
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 interface FormProps {
     register: UseFormRegister<FormType>;
     address?: Address | null;
@@ -20,7 +23,7 @@ interface FormProps {
 const Form = ({ register, handleGetCEP, enterprise, address, formError, control }: FormProps) => {
     const router = useRouter()
     const isRegisterEnterprise = router.pathname === '/register-enterprise'
-    console.log({address})
+    console.log({ address })
     return (
         <FormularioContainer>
             <Description>Informações</Description>
@@ -33,7 +36,9 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
-                                <Select {...field} displayEmpty>
+                                <Select IconComponent={() => (
+                                    <Image src={"/images/dropdown-arrow.svg"} width={15} height={8} />
+                                )} {...field} displayEmpty>
                                     <MenuItem value="" disabled>-- Selecione o status do empreendimento</MenuItem>
                                     <MenuItem value={"SOON_RELEASE"}>Breve lançamento</MenuItem>
                                     <MenuItem value={"RELEASE"}>Lançamento</MenuItem>
@@ -61,7 +66,9 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
-                                <Select displayEmpty {...field}>
+                                <Select IconComponent={() => (
+                                    <Image src={"/images/dropdown-arrow.svg"} width={15} height={8} />
+                                )} displayEmpty {...field}>
                                     <MenuItem value="" disabled>-- Selecione o objetivo do empreendimento</MenuItem>
                                     <MenuItem value={"residencial"}>Residencial</MenuItem>
                                     <MenuItem value={"commercial"}>Comercial</MenuItem>
@@ -83,10 +90,10 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
 
-                {address ?(
+                {address ? (
 
                     <CepAddress>{address.street}<br /> {address.city} <br /> {address.district}<br /> {address.state}</CepAddress>
-                ):(
+                ) : (
                     <p>loading</p>
                 )
                 }
