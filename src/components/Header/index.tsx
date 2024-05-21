@@ -28,14 +28,18 @@ export default function Header({
         <HeaderContainerAll return={true}>
             {IconReturn &&
                 <BoxRetur>
-                    <Image onClick={PushButtonReturn} src="/images/Return.svg" alt="Icone Retornar" />
+                    <Image width={9} height={16} onClick={PushButtonReturn} src="/images/Return.svg" alt="Icone Retornar" />
                     <TitleHeader>{title}</TitleHeader>
                 </BoxRetur>
             }
             {currentRoute === "/" &&
                 <BoxAdd return={false}>
                     <TitleHeader>{title}</TitleHeader>
-                    {button && <button onClick={PushButton}>Adicionar +</button>}
+                    {button && <button onClick={PushButton}>
+                        Adicionar
+                        <Image width={12} height={12} src="/images/plus-icon.svg"/>
+                    </button>}
+
                 </BoxAdd>}
         </HeaderContainerAll>
     )

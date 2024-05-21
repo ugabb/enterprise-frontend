@@ -1,8 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { fadeIn } from "../../styles/styles";
 
-
-
 export const HeaderContainerAll = styled.header<{ return: boolean }>`
   width: 100%;
   max-width: 100%;
@@ -14,7 +12,6 @@ export const HeaderContainerAll = styled.header<{ return: boolean }>`
   justify-content: space-between;
 
   animation: ${fadeIn} 1s ease-in-out;
-  
 
   @media screen and (max-width: 768px) {
     padding: ${(props) => (props.return ? `28px 30px` : `0 2rem`)};
@@ -43,7 +40,8 @@ export const BoxAdd = styled.div<{ return: boolean }>`
 
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    gap:8px;
 
     font-family: Inter, sans-serif;
     font-style: normal;
@@ -78,4 +76,11 @@ export const BoxRetur = styled.div`
   img {
     cursor: pointer;
   }
+`;
+
+export const AddEnterpriseButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0;
 `;
