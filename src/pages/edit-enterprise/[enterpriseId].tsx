@@ -81,11 +81,6 @@ const EditEnterprise = () => {
     toast.error(error.message)
   }
 
-  if (formError) {
-    console.log("formError:", formError);
-
-  }
-
   const Submit: SubmitHandler<FormType> = async ({
     address,
     name,
@@ -146,7 +141,7 @@ const EditEnterprise = () => {
         PushButtonReturn={handleHome}
       />
       <FormContainer onSubmit={handleSubmit(Submit)} >
-        <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} />
+        <Form formError={formError} control={control} register={register} handleGetCEP={handleGetCEP} enterprise={enterpriseData} address={enterpriseData?.address} />
         <DefaultButton type='submit' title={"Editar"} disabled={isSubmitting} />
       </FormContainer>
     </>

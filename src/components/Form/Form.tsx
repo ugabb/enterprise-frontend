@@ -20,6 +20,7 @@ interface FormProps {
 const Form = ({ register, handleGetCEP, enterprise, address, formError, control }: FormProps) => {
     const router = useRouter()
     const isRegisterEnterprise = router.pathname === '/register-enterprise'
+    console.log({address})
     return (
         <FormularioContainer>
             <Description>Informações</Description>
@@ -49,7 +50,7 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 {(enterprise?.name || isRegisterEnterprise) ? (
                     <Field>
                         <Input placeholder='Nome do Empreendimento' defaultValue={enterprise?.name} {...register("name", { required: "Nome é obrigatório" })} />
-                        {/* {formError?.name?.message && <SpanError>O nome do empreendimento é necessário</SpanError>} */}
+                        {formError?.name?.message && <SpanError>O nome do empreendimento é necessário</SpanError>}
                     </Field>
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
                 {(enterprise?.purpose || isRegisterEnterprise) ? (
@@ -77,18 +78,24 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 {(enterprise?.address.cep || isRegisterEnterprise) ? (
                     <Field>
                         <Input {...register("address.cep", { required: true })} placeholder='CEP' onChange={(e) => handleGetCEP(e.target.value)} defaultValue={enterprise?.address.cep} />
-                        {/* {formError?.address?.cep && <SpanError>Digite o número do CEP</SpanError>} */}
+                        {formError?.address?.cep && <SpanError>Digite o número do CEP</SpanError>}
                     </Field>
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
-                {address &&
+
+                {address ?(
+
                     <CepAddress>{address.street}<br /> {address.city} <br /> {address.district}<br /> {address.state}</CepAddress>
+                ):(
+                    <p>loading</p>
+                )
                 }
+
                 {(enterprise?.address.number || isRegisterEnterprise) ? (
 
                     <Field>
                         <Input placeholder='Número' defaultValue={enterprise?.address.number} {...register("address.number", { required: "Digite o número" })} />
-                        {/* {formError?.address?.number && <SpanError>Digite o número</SpanError>} */}
+                        {formError?.address?.number && <SpanError>Digite o número</SpanError>}
                     </Field>
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
