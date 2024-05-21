@@ -2,7 +2,6 @@ import styled, { keyframes } from "styled-components";
 import { Select as BaseSelect, Input as BaseInput } from "@material-ui/core";
 import { fadeIn } from "../../styles/styles";
 
-
 export const FormContainer = styled.div`
   display: flex;
 
@@ -24,7 +23,6 @@ export const FormContainer = styled.div`
   }
 
   animation: ${fadeIn} 1s ease-in-out;
-  
 `;
 
 export const FormularioContainer = styled.div`
@@ -48,7 +46,6 @@ export const FormularioContainer = styled.div`
   }
 
   animation: ${fadeIn} 1s ease-in-out;
-  
 `;
 
 export const Description = styled.h4`
@@ -66,7 +63,7 @@ export const InputContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 24px;
-  padding:0 32px ;
+  padding: 0 32px;
 
   input {
     height: 52px;
@@ -91,15 +88,14 @@ export const Input = styled(BaseInput)`
 `;
 
 export const Select = styled(BaseSelect)`
-  /* Add your styles here */
   width: 100%;
   max-width: 558px;
   background-color: white;
 
   border-bottom: 2px solid ${({ theme }) => theme.colors.outlineGrayDark};
   border-radius: 0;
+  transition: 0.4s all;
 
-  /* Style the selected option */
   .Mui-selected {
     background-color: lightgray;
   }
@@ -116,10 +112,15 @@ export const Select = styled(BaseSelect)`
     }
   }
 
-  /* Style the dropdown icon */
   .MuiSelect-icon {
     color: ${({ theme }) => theme.colors.textColorPrimary};
   }
+`;
+
+export const ArrowIcon = styled.img<{ direction: string }>`
+  width: 15px;
+  height: 8px;
+  rotate: ${({ direction }) => (direction === "up" ? "180deg" : "0deg")};
 `;
 
 export const CepAddress = styled.p`
@@ -142,7 +143,7 @@ export const Field = styled.div`
   gap: 1px;
   width: 100%;
 
-  &:last-child{
+  &:last-child {
     padding-bottom: 14px;
   }
 `;

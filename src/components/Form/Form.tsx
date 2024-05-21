@@ -1,5 +1,5 @@
 
-import { FormContainer, InputContainer, Select, Input, Description, CepAddress, SpanError, Field, FormularioContainer } from './Form.style'
+import { FormContainer, InputContainer, Select, Input, Description, CepAddress, SpanError, Field, FormularioContainer, ArrowDown, ArrowUp, ArrowIcon } from './Form.style'
 
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form'
 import { FormControl, MenuItem, Skeleton } from '@material-ui/core'
@@ -10,6 +10,7 @@ import { FormType } from './formType'
 
 import Image from "next/image"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useState } from 'react'
 
 interface FormProps {
     register: UseFormRegister<FormType>;
@@ -23,7 +24,9 @@ interface FormProps {
 const Form = ({ register, handleGetCEP, enterprise, address, formError, control }: FormProps) => {
     const router = useRouter()
     const isRegisterEnterprise = router.pathname === '/register-enterprise'
-    console.log({ address })
+
+    const [statusOpen, setStatusOpen] = useState(false);
+    const [purposeOpen, setPurposeOpen] = useState(false);
     return (
         <FormularioContainer>
             <Description>Informações</Description>
@@ -36,9 +39,24 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
-                                <Select IconComponent={() => (
-                                    <Image src={"/images/dropdown-arrow.svg"} width={15} height={8} />
-                                )} {...field} displayEmpty>
+                                <Select onOpen={() => {
+                                    setStatusOpen(true)
+                                }}
+                                    onClose={() => {
+                                        setStatusOpen(false)
+                                    }}
+                                    IconComponent={() => {
+                                        if (statusOpen) {
+                                            return (
+                                                <ArrowIcon direction="up" src={"/images/dropdown-arrow.svg"} />
+                                            )
+                                        } else {
+                                            return (
+                                                <ArrowIcon direction='down' src={"/images/dropdown-arrow.svg"} />
+                                            )
+
+                                        }
+                                    }} {...field} displayEmpty>
                                     <MenuItem value="" disabled>-- Selecione o status do empreendimento</MenuItem>
                                     <MenuItem value={"SOON_RELEASE"}>Breve lançamento</MenuItem>
                                     <MenuItem value={"RELEASE"}>Lançamento</MenuItem>
@@ -66,9 +84,25 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
-                                <Select IconComponent={() => (
-                                    <Image src={"/images/dropdown-arrow.svg"} width={15} height={8} />
-                                )} displayEmpty {...field}>
+                                <Select
+                                    onOpen={() => {
+                                        setPurposeOpen(true)
+                                    }}
+                                    onClose={() => {
+                                        setPurposeOpen(false)
+                                    }}
+                                    IconComponent={() => {
+                                        if (purposeOpen) {
+                                            return (
+                                                <ArrowIcon direction="up" src={"/images/dropdown-arrow.svg"} />
+                                            )
+                                        } else {
+                                            return (
+                                                <ArrowIcon direction='down' src={"/images/dropdown-arrow.svg"} />
+                                            )
+
+                                        }
+                                    }} displayEmpty {...field}>
                                     <MenuItem value="" disabled>-- Selecione o objetivo do empreendimento</MenuItem>
                                     <MenuItem value={"residencial"}>Residencial</MenuItem>
                                     <MenuItem value={"commercial"}>Comercial</MenuItem>
