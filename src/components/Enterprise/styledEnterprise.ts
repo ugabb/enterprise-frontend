@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Alert as BaseAlert, Modal as BaseModal } from "@material-ui/core";
 import { fadeIn } from "../../styles/styles";
 
@@ -131,6 +131,15 @@ export const SectionContainer = styled.section`
 export const StatsContainer = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const scale = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+}
 `;
 
 export const Action = styled.div`

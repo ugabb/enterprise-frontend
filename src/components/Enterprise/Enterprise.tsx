@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { motion } from "framer-motion"
+
 import DeleteAlert from './Alert';
 import { ContainerHome, BoxNameEnterprise, ContentStatus, Icon, Action, Modal, EnterpriseName, SectionContainer, EnterpriseItem } from './styledEnterprise';
 import { useRouter } from 'next/dist/client/router';
@@ -70,11 +72,15 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
                         </ContentStatus>
                         <Action>
                             <Icon
+                                as={motion.img}
+                                whileHover={{ scale: 1.1 }}
                                 onClick={() => router.push(`/edit-enterprise/${enterprise.id}`)}
                                 src="/images/Vector.svg"
                                 alt="Icone de Lapis"
                             />
                             <Icon
+                                as={motion.img}
+                                whileHover={{ scale: 1.1 }}
                                 onClick={() => {
                                     setOpenModalDelete(true);
                                 }}
