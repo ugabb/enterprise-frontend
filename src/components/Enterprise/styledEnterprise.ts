@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Alert as BaseAlert, Modal as BaseModal } from "@material-ui/core";
 import { fadeIn } from "../../styles/styles";
 
@@ -11,7 +11,7 @@ export const ContainerHome = styled.div`
   
 `;
 
-export const ContentHome = styled.div`
+export const EnterpriseItem = styled.div`
   width: 100%;
   max-width: 80%;
   height: auto;
@@ -21,7 +21,7 @@ export const ContentHome = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 3.4rem;
+  padding: 32px;
   box-shadow: 0px 2px 4px rgba(48, 46, 69, 0.06);
 
   @media screen and (min-width: 768px) {
@@ -32,7 +32,7 @@ export const ContentHome = styled.div`
   section {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: auto;
 
     @media screen and (max-width: 768px) {
       flex-direction: column;
@@ -49,6 +49,7 @@ export const ContentHome = styled.div`
         margin-top: 0;
       }
     }
+
   }
 `;
 

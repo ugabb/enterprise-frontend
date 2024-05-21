@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import DeleteAlert from './Alert';
-import { ContainerHome, ContentHome, BoxNameEnterprise, ContentStatus, Icon, Action, Modal, EnterpriseName, SectionContainer } from './styledEnterprise';
+import { ContainerHome, BoxNameEnterprise, ContentStatus, Icon, Action, Modal, EnterpriseName, SectionContainer, EnterpriseItem } from './styledEnterprise';
 import { useRouter } from 'next/dist/client/router';
 
 export interface EntrepriseProps {
@@ -49,7 +49,7 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
 
     return (
         <ContainerHome key={enterprise.id}>
-            <ContentHome>
+            <EnterpriseItem>
                 {openModalDelete &&
                     <Modal open={openModalDelete} onClose={setOpenModalDelete} >
                         <DeleteAlert enterpriseId={enterpriseId} setOpenModalDelete={setOpenModalDelete} />
@@ -85,7 +85,7 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
                     </SectionContainer>
                 </section>
 
-            </ContentHome>
+            </EnterpriseItem>
         </ContainerHome>
     )
 }
