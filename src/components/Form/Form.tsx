@@ -122,11 +122,9 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
 
-                {address ? (
+                {address && (
 
                     <CepAddress>{address.street}<br /> {address.city} <br /> {address.district}<br /> {address.state}</CepAddress>
-                ) : (
-                    <p>loading</p>
                 )
                 }
 
