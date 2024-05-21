@@ -66,6 +66,7 @@ export const InputContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 24px;
+  padding:0 32px ;
 
   input {
     height: 52px;
@@ -124,7 +125,6 @@ export const Select = styled(BaseSelect)`
 export const CepAddress = styled.p`
   width: 100%;
   padding: 0 32px;
-  margin: 21px 0;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.textColorPrimary};
   font-weight: 400;
@@ -141,4 +141,8 @@ export const Field = styled.div`
   flex-direction: column;
   gap: 1px;
   width: 100%;
+
+  &:last-child{
+    padding-bottom: 14px;
+  }
 `;
