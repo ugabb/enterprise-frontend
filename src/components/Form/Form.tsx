@@ -1,15 +1,13 @@
 
-import { FormContainer, InputContainer, Select, Input, Description, CepAddress, SpanError, Field, FormularioContainer, ArrowDown, ArrowUp, ArrowIcon } from './Form.style'
+import { InputContainer, Select, Input, Description, CepAddress, SpanError, Field, FormularioContainer, ArrowIcon } from './Form.style'
 
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form'
-import { FormControl, MenuItem, Skeleton } from '@material-ui/core'
+import { MenuItem, Skeleton } from '@material-ui/core'
 import { EnterpriseWithAddress } from '../../api/get-enterprise-by-id'
 import { Address } from '../../pages/register-enterprise'
 import { useRouter } from 'next/dist/client/router'
 import { FormType } from './formType'
 
-import Image from "next/image"
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react'
 
 interface FormProps {

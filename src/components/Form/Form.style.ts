@@ -100,6 +100,14 @@ export const Select = styled(BaseSelect)`
     background-color: lightgray;
   }
 
+  .MuiSelect-select {
+    padding:  20px 0 !important;
+  }
+
+  .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding:  20px 0 !important;
+  }
+
   &.MuiOutlinedInput-root {
     &.Mui-focused fieldset {
       border: none;
@@ -125,7 +133,6 @@ export const ArrowIcon = styled.img<{ direction: string }>`
 
 export const CepAddress = styled.p`
   width: 100%;
-  padding: 0 32px;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.textColorPrimary};
   font-weight: 400;
