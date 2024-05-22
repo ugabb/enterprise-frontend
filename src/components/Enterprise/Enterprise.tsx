@@ -51,7 +51,8 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
 
     return (
         <ContainerHome key={enterprise.id}>
-            <EnterpriseItem>
+            <EnterpriseItem as={motion.div}
+                whileHover={{ scale: 1.01 }}>
                 {openModalDelete &&
                     <Modal open={openModalDelete} onClose={setOpenModalDelete} >
                         <DeleteAlert enterpriseId={enterpriseId} setOpenModalDelete={setOpenModalDelete} />
