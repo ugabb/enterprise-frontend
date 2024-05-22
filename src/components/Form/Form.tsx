@@ -1,34 +1,152 @@
 
-import { InputContainer, Select, Input, Description, CepAddress, SpanError, Field, FormularioContainer, ArrowIcon } from './Form.style'
+import { InputContainer, Select, Input, Description, CepAddress, SpanError, Field, ArrowIcon, FormContainer, ButtonContainer } from './Form.style'
 
-import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { MenuItem, Skeleton } from '@material-ui/core'
 import { EnterpriseWithAddress } from '../../api/get-enterprise-by-id'
-import { Address } from '../../pages/register-enterprise'
 import { useRouter } from 'next/dist/client/router'
-import { FormType } from './formType'
+import { formSchema, FormType } from '../../types/formType'
 
 import { useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Address, EnterpriseCreateInputWithAddress } from '../../types/enterpriseTypes'
+import DefaultButton from '../DefaultButton'
+import { isValidCEP } from '@brazilian-utils/brazilian-utils'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 interface FormProps {
-    register: UseFormRegister<FormType>;
     address?: Address | null;
-    handleGetCEP: (cep: string) => void;
     enterprise?: EnterpriseWithAddress;
-    formError: FieldErrors<FormType>;
-    control: Control<FormType>
+    action: (data: EnterpriseCreateInputWithAddress) => Promise<void>
 }
 
-const Form = ({ register, handleGetCEP, enterprise, address, formError, control }: FormProps) => {
+export interface AddressResponse {
+    cep: string;
+    logradouro: string;
+    complemento: string;
+    bairro: string;
+    localidade: string;
+    uf: string;
+    ibge: string;
+    gia: string;
+    ddd: string;
+    siafi: string;
+}
+
+const Form = ({ enterprise, action }: FormProps) => {
+    const [address, setAddress] = useState<Address | null>(null);
+    const [statusOpen, setStatusOpen] = useState(false);
+    const [purposeOpen, setPurposeOpen] = useState(false);
+
     const router = useRouter()
     const isRegisterEnterprise = router.pathname === '/register-enterprise'
 
-    const [statusOpen, setStatusOpen] = useState(false);
-    const [purposeOpen, setPurposeOpen] = useState(false);
+    const { register, handleSubmit, control, setValue, formState: { errors: formError, isSubmitting } } = useForm<FormType>({
+        resolver: zodResolver(formSchema),
+        values: {
+            name: enterprise?.name || '',
+            purpose: enterprise?.purpose as "residencial" | "commercial" || '',
+            status: enterprise?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY" || '',
+            ri_number: enterprise?.ri_number || '',
+            address: {
+                cep: enterprise?.address?.cep || '',
+                city: enterprise?.address?.city || '',
+                district: enterprise?.address?.district || '',
+                state: enterprise?.address?.state || '',
+                street: enterprise?.address?.street || '',
+                number: enterprise?.address?.number || '',
+            }
+        }
+    });
+
+    const Submit: SubmitHandler<FormType> = async ({
+        address,
+        name,
+        purpose,
+        status,
+    }: FormType) => {
+        console.log("Form Submitted:", { name, purpose, status, address });
+
+
+        try {
+            await action({
+                address: {
+                    cep: address.cep,
+                    city: address.city,
+                    district: address.district,
+                    state: address.state,
+                    street: address.street,
+                    number: address.number
+                },
+                name: name,
+                purpose: purpose,
+                status: status,
+                id: enterprise?.id,
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleGetCEP = async (cep: string) => {
+        if (cep.length < 9) return;
+        console.log(cep);
+
+
+        if (cep) {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+            console.log(response);
+
+            if (response.data.erro) {
+                toast.error("CEP inválido ou não existe!")
+            }
+
+            const addressResponse: AddressResponse = response.data
+            setValue('address', {
+                cep: addressResponse.cep,
+                city: addressResponse.localidade,
+                district: addressResponse.bairro,
+                state: addressResponse.uf,
+                street: addressResponse.logradouro,
+                number: ""
+            });
+            setAddress({
+                cep: addressResponse.cep,
+                city: addressResponse.localidade,
+                district: addressResponse.bairro,
+                state: addressResponse.uf,
+                street: addressResponse.logradouro,
+            })
+        } else {
+            toast.error("CEP inválido")
+        }
+    }
+
+    const formatCEP = (cep: string) => {
+        if (!cep) return ""
+
+        // Remove todos os caracteres que não são dígitos
+        cep = cep.replace(/\D/g, '')
+
+        // Insere um hífen após os primeiros cinco dígitos
+        cep = cep.replace(/(\d{5})(\d)/, '$1-$2')
+        return cep
+    };
+    const formatNumero = (numero: string) => {
+        if (!numero) return ""
+
+        // Remove todos os caracteres que não são dígitos
+        numero = numero.replace(/\D/g, '')
+
+        return numero
+    };
+
     return (
-        <FormularioContainer>
-            <Description>Informações</Description>
+        <FormContainer onSubmit={handleSubmit(Submit)}>
             <InputContainer>
+                <Description>Informações</Description>
                 {(enterprise?.status || isRegisterEnterprise) ? (
                     <Controller
                         name="status"
@@ -116,7 +234,25 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 }
                 {(enterprise?.address.cep || isRegisterEnterprise) ? (
                     <Field>
-                        <Input {...register("address.cep", { required: true })} placeholder='CEP' onChange={(e) => handleGetCEP(e.target.value)} defaultValue={enterprise?.address.cep} />
+                        <Input
+                            inputProps={{
+                                maxLength: 9,
+                                typeof: "number"
+                            }}
+                            {...register("address.cep", {
+                                required: true,
+                            })}
+                            placeholder='CEP'
+                            onChange={(e) => {
+                                let input = e.target
+                                input.value = formatCEP(input.value)
+                                if (isValidCEP(e.target.value)) {
+                                    handleGetCEP(e.target.value)
+                                }
+
+                            }}
+                            defaultValue={enterprise?.address.cep}
+                        />
                         {formError?.address?.cep && <SpanError>Digite o número do CEP</SpanError>}
                     </Field>
 
@@ -131,14 +267,19 @@ const Form = ({ register, handleGetCEP, enterprise, address, formError, control 
                 {(enterprise?.address.number || isRegisterEnterprise) ? (
 
                     <Field>
-                        <Input placeholder='Número' defaultValue={enterprise?.address.number} {...register("address.number", { required: "Digite o número" })} />
+                        <Input placeholder='Número' defaultValue={enterprise?.address.number} {...register("address.number", { required: "Digite o número" })} onChange={(e) => {
+                            let input = e.target
+                            input.value = formatNumero(input.value)
+                        }} />
                         {formError?.address?.number && <SpanError>Digite o número</SpanError>}
                     </Field>
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
             </InputContainer>
-
-        </FormularioContainer>
+            <ButtonContainer>
+                <DefaultButton type='submit' title={isRegisterEnterprise ? " Cadastrar" : "Editar"} disabled={isSubmitting} />
+            </ButtonContainer>
+        </FormContainer>
     )
 }
 

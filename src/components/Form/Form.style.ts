@@ -2,19 +2,18 @@ import styled, { keyframes } from "styled-components";
 import { Select as BaseSelect, Input as BaseInput } from "@material-ui/core";
 import { fadeIn } from "../../styles/styles";
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.form`
   display: flex;
 
   flex-direction: column;
   gap: 11px;
 
   padding: 1rem;
-  margin: 1rem;
+  margin: 0 auto;
+  padding-top: 43px;
   width: 100%;
   max-width: 622px;
   min-height: 606px;
-
-  background-color: white;
 
   border-radius: 8px;
 
@@ -54,16 +53,19 @@ export const Description = styled.h4`
   font-size: 18px;
   color: ${({ theme }) => theme.colors.textColorPrimary};
 
-  padding: 32px;
+  /* padding: 32px 0; */
 `;
 
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   gap: 24px;
-  padding: 0 32px;
+  padding: 32px;
+  border-radius: 8px;
+
+  background-color: ${({ theme }) => theme.colors.bgWhite};
 
   input {
     height: 52px;
@@ -101,11 +103,11 @@ export const Select = styled(BaseSelect)`
   }
 
   .MuiSelect-select {
-    padding:  20px 0 !important;
+    padding: 20px 0 !important;
   }
 
   .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-    padding:  20px 0 !important;
+    padding: 20px 0 !important;
   }
 
   &.MuiOutlinedInput-root {
@@ -153,4 +155,10 @@ export const Field = styled.div`
   &:last-child {
     padding-bottom: 14px;
   }
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 38px;
 `;

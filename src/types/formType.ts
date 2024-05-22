@@ -10,7 +10,7 @@ export const formSchema = z.object({
       city: z.string(),
       street: z.string(),
       state: z.string(),
-      number: z.string().min(1, { message: "O número é obrigatório" }),
+      number: z.coerce.string().min(1, { message: "O número é obrigatório" }),
       cep: z.string().min(8).max(9)
     })
   })
