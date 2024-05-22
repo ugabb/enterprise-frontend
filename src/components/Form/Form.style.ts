@@ -160,5 +160,5 @@ export const Field = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 38px;
+  margin: 38px 0;
 `;

@@ -15,6 +15,8 @@ import { getEnterprises } from "../api/get-enterprises";
 import { Skeleton } from "@material-ui/core";
 import { SearchContainer } from "../components/Search/styleSearch";
 import { EnterpriseWithAddress } from "../api/get-enterprise-by-id";
+import DefaultButton from "../components/DefaultButton";
+import { ButtonContainer } from "../components/Form/Form.style";
 
 
 export default function Home() {
@@ -85,7 +87,7 @@ export default function Home() {
                 {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
                     <Enterprise key={data.id} enterprise={data} />
                 ))}
-                {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)} />}
+                {(enterprisesNumber >= rowsPerPage) && <ButtonContainer><DefaultButton title={"Carregar mais"} onClick={() => setRowsPerPage(rowsPerPage + 5)} /></ButtonContainer>}
             </main>
         </>
     )

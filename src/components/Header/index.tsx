@@ -6,6 +6,7 @@ import {
     TitleHeader,
 } from "./styleHeader";
 import Image from "next/image";
+import DefaultButton from "../DefaultButton";
 interface HeaderProps {
     title: string,
     button: Boolean,
@@ -35,10 +36,9 @@ export default function Header({
             {currentRoute === "/" &&
                 <BoxAdd return={false}>
                     <TitleHeader>{title}</TitleHeader>
-                    {button && <button onClick={PushButton}>
-                        Adicionar
-                        <Image width={12} height={12} src="/images/plus-icon.svg"/>
-                    </button>}
+                    {button && <DefaultButton pushRoute={PushButton} Icon={<Image width={12} height={12} src="/images/plus-icon.svg" />} title="Adicionar">
+
+                    </DefaultButton>}
 
                 </BoxAdd>}
         </HeaderContainerAll>

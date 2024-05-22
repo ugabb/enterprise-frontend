@@ -15,10 +15,4 @@ export const Button = styled.button`
   border-radius: 71px;
   height: 36px;
   width: fit-content;
-
-  transition: all 0.4s;
-
-  :hover {
-    background-color: ${({theme}) => lighten(0.1, theme.colors.brandColorDefault)}
-  }
 `;
