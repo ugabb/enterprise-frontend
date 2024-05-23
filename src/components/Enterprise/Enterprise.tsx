@@ -50,7 +50,7 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
     const enterpriseId = enterprise.id;
 
     return (
-        <EnterpriseItem as={motion.div}
+        <EnterpriseItem data-enterprise-id={enterpriseId} as={motion.div}
             whileHover={{ scale: 1.01 }}>
             {openModalDelete &&
                 <Modal open={openModalDelete} onClose={setOpenModalDelete} >

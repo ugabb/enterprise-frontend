@@ -155,7 +155,7 @@ const Form = ({ enterprise, action }: FormProps) => {
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
-                                <Select onOpen={() => {
+                                <Select id='select-status' onOpen={() => {
                                     setStatusOpen(true)
                                 }}
                                     onClose={() => {
@@ -201,6 +201,7 @@ const Form = ({ enterprise, action }: FormProps) => {
                         render={({ field }) => (
                             <Field>
                                 <Select
+                                id='select-purpose'
                                     onOpen={() => {
                                         setPurposeOpen(true)
                                     }}
