@@ -50,50 +50,48 @@ const Enterprise = ({ enterprise }: EntrepriseProps) => {
     const enterpriseId = enterprise.id;
 
     return (
-        <ContainerHome key={enterprise.id}>
-            <EnterpriseItem as={motion.div}
-                whileHover={{ scale: 1.01 }}>
-                {openModalDelete &&
-                    <Modal open={openModalDelete} onClose={setOpenModalDelete} >
-                        <DeleteAlert enterpriseId={enterpriseId} setOpenModalDelete={setOpenModalDelete} />
-                    </Modal>
-                }
-                <section>
-                    <BoxNameEnterprise>
-                        <EnterpriseName>{enterprise.name}</EnterpriseName>
-                        <p>{enterprise.address.street}, {enterprise.address.number} - {enterprise.address.district}, {enterprise.address.state}</p>
-                    </BoxNameEnterprise>
-                </section>
+        <EnterpriseItem as={motion.div}
+            whileHover={{ scale: 1.01 }}>
+            {openModalDelete &&
+                <Modal open={openModalDelete} onClose={setOpenModalDelete} >
+                    <DeleteAlert enterpriseId={enterpriseId} setOpenModalDelete={setOpenModalDelete} />
+                </Modal>
+            }
+            <section>
+                <BoxNameEnterprise>
+                    <EnterpriseName>{enterprise.name}</EnterpriseName>
+                    <p>{enterprise.address.street}, {enterprise.address.number} - {enterprise.address.district}, {enterprise.address.state}</p>
+                </BoxNameEnterprise>
+            </section>
 
-                <section>
-                    <SectionContainer>
-                        <ContentStatus>
-                            <span>{StatusMap[status]}</span>
-                            <span>{purposeMap[purpose]}</span>
-                        </ContentStatus>
-                        <Action>
-                            <Icon
-                                as={motion.img}
-                                whileHover={{ scale: 1.1 }}
-                                onClick={() => router.push(`/edit-enterprise/${enterprise.id}`)}
-                                src="/images/Vector.svg"
-                                alt="Icone de Lapis"
-                            />
-                            <Icon
-                                as={motion.img}
-                                whileHover={{ scale: 1.1 }}
-                                onClick={() => {
-                                    setOpenModalDelete(true);
-                                }}
-                                src="/images/Vector-1.svg"
-                                alt="Icone de Lixeira"
-                            />
-                        </Action>
-                    </SectionContainer>
-                </section>
+            <section>
+                <SectionContainer>
+                    <ContentStatus>
+                        <span>{StatusMap[status]}</span>
+                        <span>{purposeMap[purpose]}</span>
+                    </ContentStatus>
+                    <Action>
+                        <Icon
+                            as={motion.img}
+                            whileHover={{ scale: 1.1 }}
+                            onClick={() => router.push(`/edit-enterprise/${enterprise.id}`)}
+                            src="/images/Vector.svg"
+                            alt="Icone de Lapis"
+                        />
+                        <Icon
+                            as={motion.img}
+                            whileHover={{ scale: 1.1 }}
+                            onClick={() => {
+                                setOpenModalDelete(true);
+                            }}
+                            src="/images/Vector-1.svg"
+                            alt="Icone de Lixeira"
+                        />
+                    </Action>
+                </SectionContainer>
+            </section>
 
-            </EnterpriseItem>
-        </ContainerHome>
+        </EnterpriseItem>
     )
 }
 

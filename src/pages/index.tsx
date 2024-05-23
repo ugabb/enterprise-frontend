@@ -17,12 +17,14 @@ import { SearchContainer } from "../components/Search/styleSearch";
 import { EnterpriseWithAddress } from "../api/get-enterprise-by-id";
 import DefaultButton from "../components/DefaultButton";
 import { ButtonContainer } from "../components/Form/Form.style";
+import { ContainerHome } from "../components/Enterprise/styledEnterprise";
 
 
 export default function Home() {
     const [enterprises, setEnterprises] = useState<EnterpriseWithAddress[]>([]);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
+    const [isSearching, setIsSearching] = useState(false)
 
     const router = useRouter()
 
@@ -70,7 +72,7 @@ export default function Home() {
                 {enterprisesList ?
                     <ContainertLupa>
                         <ContentLupa>
-                            <Search setEnterprises={setEnterprises} enterprises={enterprisesList} />
+                            <Search setIsSearching={setIsSearching} setEnterprises={setEnterprises} enterprises={enterprisesList} />
                         </ContentLupa>
                     </ContainertLupa>
                     : (
@@ -85,11 +87,16 @@ export default function Home() {
                                 <Enterprise key={data.id} enterprise={data} />
                             )
                         })} */}
-
-                {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
-                    <Enterprise key={data.id} enterprise={data} />
-                ))}
-                {(enterprisesNumber >= rowsPerPage) && <ButtonContainer><DefaultButton title={"Carregar mais"} onClick={() => setRowsPerPage(rowsPerPage + 5)} /></ButtonContainer>}
+                <ContainerHome>
+                    {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
+                        <Enterprise key={data.id} enterprise={data} />
+                    ))}
+                    {enterprises.length === 0 && (<p>Não encontrado.</p>)}
+                </ContainerHome>
+                {(enterprisesNumber > rowsPerPage && !isSearching) &&
+                    <ButtonContainer onClick={() => setRowsPerPage(rowsPerPage + 5)} >
+                        <DefaultButton title={"Carregar mais"} />
+                    </ButtonContainer>}
             </main>
         </>
     )

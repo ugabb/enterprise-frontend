@@ -5,17 +5,21 @@ import { SearchContainer } from './styleSearch'
 import { EnterpriseWithAddress } from '../../api/get-enterprises';
 import toast from 'react-hot-toast';
 import { theme } from '../../styles/theme';
-import { shade, transparentize } from 'polished';
-import { motion } from 'framer-motion';
 
 interface SearchProps {
     enterprises: EnterpriseWithAddress[];
     setEnterprises: Dispatch<SetStateAction<EnterpriseWithAddress[]>>;
+    setIsSearching: Dispatch<SetStateAction<boolean>>;
 }
 
-const Search = ({ enterprises, setEnterprises }: SearchProps) => {
+const Search = ({ enterprises, setEnterprises, setIsSearching }: SearchProps) => {
     const handleSearch = (search: string, enterprises: EnterpriseWithAddress[]) => {
         if (enterprises === undefined) return toast.error("Nenhum empreendimento para pesquisar")
+        if (search.length > 0) {
+            setIsSearching(true)
+        } else {
+            setIsSearching(false)
+        }
         const enterprisesFiltered = enterprises.filter((enterprise) => enterprise.name.toLowerCase().includes(search.toLowerCase()))
         setEnterprises(enterprisesFiltered)
     }

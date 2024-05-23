@@ -5,7 +5,10 @@ import { fadeIn } from "../../styles/styles";
 export const ContainerHome = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 1rem;
   padding: 1rem;
   animation: ${fadeIn} 1s ease-in-out;
   
