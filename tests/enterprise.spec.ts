@@ -8,7 +8,7 @@ test.describe.serial("Enterprise Tests", () => {
     await page.goto("/register-enterprise", { waitUntil: "networkidle" });
 
     // Seleciona o status do empreendimento
-    await page.getByLabel("-- Selecione o status do").click();
+    await page.getByLabel('Lançamento').click();
     await page.getByRole("option", { name: "Breve lançamento" }).click();
 
     // Preenche o nome do empreendimento
@@ -17,8 +17,8 @@ test.describe.serial("Enterprise Tests", () => {
       .fill("Empreendimento Teste");
 
     // Seleciona o objetivo do empreendimento
-    await page.getByLabel("-- Selecione o objetivo do").click();
-    await page.getByRole("option", { name: "Residencial" }).click();
+    await page.getByLabel('Residencial').click();
+    await page.getByRole("option", { name: "Comercial" }).click();
 
     // Preenche o CEP e espera um tempo para carregamento dos dados
     await page.getByPlaceholder("CEP").fill("70150900");
