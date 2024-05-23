@@ -42,12 +42,12 @@ const Form = ({ enterprise, action }: FormProps) => {
     const router = useRouter()
     const isRegisterEnterprise = router.pathname === '/register-enterprise'
 
-    const { register, handleSubmit, control, setValue, formState: { errors: formError, isSubmitting } } = useForm<FormType>({
+    const { register, handleSubmit, control, setValue, formState: { errors: formError, isSubmitting, defaultValues } } = useForm<FormType>({
         resolver: zodResolver(formSchema),
         values: {
             name: enterprise?.name || '',
-            purpose: enterprise?.purpose as "residencial" | "commercial" || '',
-            status: enterprise?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY" || '',
+            purpose: enterprise?.purpose as "residencial" | "commercial",
+            status: enterprise?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY",
             ri_number: enterprise?.ri_number || '',
             address: {
                 cep: enterprise?.address?.cep || '',
@@ -93,7 +93,6 @@ const Form = ({ enterprise, action }: FormProps) => {
     const handleGetCEP = async (cep: string) => {
         if (cep.length < 9) return;
         console.log(cep);
-
 
         if (cep) {
             const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
@@ -151,7 +150,7 @@ const Form = ({ enterprise, action }: FormProps) => {
                     <Controller
                         name="status"
                         control={control}
-                        defaultValue={enterprise?.status as "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY" || ""}
+                        defaultValue={enterprise?.status || "RELEASE"}
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
@@ -172,10 +171,9 @@ const Form = ({ enterprise, action }: FormProps) => {
                                             )
 
                                         }
-                                    }} {...field} displayEmpty>
-                                    <MenuItem value="" disabled>-- Selecione o status do empreendimento</MenuItem>
+                                    }} {...field}>
+                                    <MenuItem value="RELEASE">Lançamento</MenuItem>
                                     <MenuItem value={"SOON_RELEASE"}>Breve lançamento</MenuItem>
-                                    <MenuItem value={"RELEASE"}>Lançamento</MenuItem>
                                     <MenuItem value={"iN_PROGRESS"}>Em obras</MenuItem>
                                     <MenuItem value={"READY"}>Pronto para morar</MenuItem>
                                 </Select>
@@ -196,12 +194,12 @@ const Form = ({ enterprise, action }: FormProps) => {
                     <Controller
                         name='purpose'
                         control={control}
-                        defaultValue={enterprise?.purpose as "residencial" | "commercial" || ""}
+                        defaultValue={enterprise?.purpose || "residencial"}
                         rules={{ required: true }}
                         render={({ field }) => (
                             <Field>
                                 <Select
-                                id='select-purpose'
+                                    id='select-purpose'
                                     onOpen={() => {
                                         setPurposeOpen(true)
                                     }}
@@ -219,9 +217,8 @@ const Form = ({ enterprise, action }: FormProps) => {
                                             )
 
                                         }
-                                    }} displayEmpty {...field}>
-                                    <MenuItem value="" disabled>-- Selecione o objetivo do empreendimento</MenuItem>
-                                    <MenuItem value={"residencial"}>Residencial</MenuItem>
+                                    }} {...field}>
+                                    <MenuItem value="residencial">Residencial</MenuItem>
                                     <MenuItem value={"commercial"}>Comercial</MenuItem>
                                 </Select>
                                 {formError.purpose && <SpanError>Selecione o objetivo do empreendimento</SpanError>}

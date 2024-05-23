@@ -73,6 +73,12 @@ export const InputContainer = styled.div`
     max-width: 558px;
     font-size: 1rem;
     border-bottom: 2px solid ${({ theme }) => theme.colors.outlineGrayDark};
+
+    &::placeholder {
+      color: ${({ theme }) =>
+        theme.colors.textColorPrimary}; /* Placeholder text color */
+      opacity: 1;
+    }
   }
 `;
 
@@ -86,6 +92,12 @@ export const Input = styled(BaseInput)`
   }
   &.MuiInput-underline:hover:not(.Mui-disabled):before {
     content: none;
+  }
+
+  /* Styles for the placeholder text */
+  &::placeholder {
+    color: red; /* Placeholder text color */
+    background-color: blue; /* Placeholder background color */
   }
 `;
 
@@ -125,6 +137,7 @@ export const Select = styled(BaseSelect)`
   .MuiSelect-icon {
     color: ${({ theme }) => theme.colors.textColorPrimary};
   }
+
 `;
 
 export const ArrowIcon = styled.img<{ direction: string }>`
