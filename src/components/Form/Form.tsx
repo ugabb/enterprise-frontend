@@ -256,10 +256,11 @@ const Form = ({ enterprise, action }: FormProps) => {
 
                 ) : (<Skeleton variant="rectangular" width={"100%"} height={44} />)}
 
-                {address && (
+                {address ? (
 
                     <CepAddress>{address.street}<br /> {address.city} <br /> {address.district}<br /> {address.state}</CepAddress>
-                )
+                ) :
+                    <CepAddress>{enterprise?.address.street}<br /> {enterprise?.address.city} <br /> {enterprise?.address.district}<br /> {enterprise?.address.state}</CepAddress>
                 }
 
                 {(enterprise?.address.number || isRegisterEnterprise) ? (
