@@ -137,7 +137,6 @@ export const Select = styled(BaseSelect)`
   .MuiSelect-icon {
     color: ${({ theme }) => theme.colors.textColorPrimary};
   }
-
 `;
 
 export const ArrowIcon = styled.img<{ direction: string }>`
@@ -164,6 +163,7 @@ export const Field = styled.div`
   flex-direction: column;
   gap: 1px;
   width: 100%;
+  border-radius: 0;
 
   &:last-child {
     padding-bottom: 14px;
