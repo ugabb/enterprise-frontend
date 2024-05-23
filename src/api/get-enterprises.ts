@@ -13,8 +13,8 @@ export type EnterpriseWithAddress = {
 } & {
   id: string;
   name: string;
-  status: string;
-  purpose: string;
+  status: "SOON_RELEASE" | "RELEASE" | "iN_PROGRESS" | "READY";
+  purpose: "residencial" | "commercial";
   ri_number: string;
   addressId: string;
 };
