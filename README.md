@@ -55,3 +55,16 @@ cd enterprise-frontend
 yarn install
 yarn dev
 ```
+
+<h3>Testes End to End (E2E)</h3>
+
+Foram Criados os seguintes teste:
+- Criar Empreendimento
+- Editar Empreendimento
+- Excluir Empreendimento
+
+obs: teste foram configurados para rodar em sequência, ou seja, um esperando pelo outro. Sendo assim, completando todo o fluxo de ações possíveis do usuário.
+
+```bash
+yarn dev:test
+```
