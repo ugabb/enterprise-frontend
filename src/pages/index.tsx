@@ -67,17 +67,19 @@ export default function Home() {
                     IconReturn={false}
                     PushButton={handleNewEnterprise}
                 />
-                {enterprisesList ? <ContainertLupa>
-                    <ContentLupa>
-                        <Search setEnterprises={setEnterprises} enterprises={enterprisesList} />
-                    </ContentLupa>
-                </ContainertLupa> : (
-                    <SearchContainer>
-                        <Skeleton variant="rectangular" height={30} />
-                    </SearchContainer>
+                {enterprisesList ?
+                    <ContainertLupa>
+                        <ContentLupa>
+                            <Search setEnterprises={setEnterprises} enterprises={enterprisesList} />
+                        </ContentLupa>
+                    </ContainertLupa>
+                    : (
+                        <SearchContainer>
+                            <Skeleton variant="rectangular" height={30} />
+                        </SearchContainer>
 
 
-                )}
+                    )}
                 {/* {handleSearch.slice(0, rowsPerPage).map((data: any) => {
                             return (
                                 <Enterprise key={data.id} enterprise={data} />

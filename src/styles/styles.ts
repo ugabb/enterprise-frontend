@@ -27,7 +27,6 @@ export const ContainertLupa = styled.div`
 export const ContentLupa = styled.div`
   width: 80%;
   height: 2.5rem;
-  border-bottom: 2px solid #bbb8d9;
 
   input {
     border: none;
