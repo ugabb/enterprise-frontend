@@ -1,9 +1,10 @@
 <h1 align="center" style="font-weight: bold;">Enterprises Teste Técnico Patriani</h1>
 
 <p align="center">
- <a href="#tech">Technologies</a> • 
- <a href="#started">Getting Started</a> • 
-<a href="https://github.com/ugabb/enterprise-api">Backend</a> • 
+ • <a href="#tech">Technologies</a> 
+ • <a href="#started">Getting Started</a> 
+ • <a href="https://github.com/ugabb/enterprise-api">Backend</a>  
+ • <a href="#test">test</a>  
 </p>
 
 <p align="center">
@@ -26,6 +27,7 @@
 - Styled components
 - Zod
 - React hook form
+- Playwright(testes e2e)
 
 <h2 id="started">🚀 Getting started</h2>
 
@@ -56,7 +58,7 @@ yarn install
 yarn dev
 ```
 
-<h3>Testes End to End (E2E)</h3>
+<h3 id="test">Testes End to End (E2E)</h3>
 
 Foram Criados os seguintes teste:
 - Criar Empreendimento
