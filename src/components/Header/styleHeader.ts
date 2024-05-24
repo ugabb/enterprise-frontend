@@ -27,7 +27,7 @@ export const BoxAdd = styled.div<{ return: boolean }>`
   align-items: center;
   justify-content: space-between;
 
-  @media screen and (max-width: 320px) {
+  @media screen and (max-width: 425px) {
     flex-direction: column;
   }
 

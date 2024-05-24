@@ -11,7 +11,6 @@ export const ContainerHome = styled.div`
   gap: 1rem;
   padding: 1rem;
   animation: ${fadeIn} 1s ease-in-out;
-  
 `;
 
 export const EnterpriseItem = styled.div`
@@ -23,22 +22,24 @@ export const EnterpriseItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   padding: 32px;
   box-shadow: 0px 2px 4px rgba(48, 46, 69, 0.06);
 
   @media screen and (min-width: 768px) {
     padding: 1rem 2rem;
     flex-direction: row;
+    justify-content: space-between;
   }
 
   section {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: auto;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (min-width: 768px) {
       flex-direction: column;
+      align-items: end;
     }
 
     p {
@@ -52,7 +53,6 @@ export const EnterpriseItem = styled.div`
         margin-top: 0;
       }
     }
-
   }
 `;
 
@@ -87,10 +87,10 @@ export const ContentStatus = styled.div`
       background: rgba(142, 133, 255, 1);
       color: #fff;
     }
-
-    @media screen and (max-width: 768px) {
-      font-size: 12px;
-    }
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -124,7 +124,6 @@ export const BoxNameEnterprise = styled.div`
 
 export const SectionContainer = styled.section`
   display: flex;
- 
 
   @media screen and (min-width: 768px) {
     align-items: end;
