@@ -27,6 +27,7 @@
 - Styled components
 - Zod
 - React hook form
+- Playwright(testes e2e)
 
 <h2 id="started">🚀 Getting started</h2>
 
