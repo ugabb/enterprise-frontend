@@ -70,3 +70,4 @@ obs: teste foram configurados para rodar em sequência, ou seja, um esperando pe
 ```bash
 yarn dev:test
 ```
+<img src="/public/images/playwright.png" alt="Playwright interface" width="500px">
