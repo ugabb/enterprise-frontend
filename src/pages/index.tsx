@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Head from "next/head";
-import ButtonFooter from "../components/buttonFooter/buttonFooter";
 import Header from "../components/Header";
 import {
     ContainertLupa,
@@ -18,6 +16,8 @@ import { EnterpriseWithAddress } from "../api/get-enterprise-by-id";
 import DefaultButton from "../components/DefaultButton";
 import { ButtonContainer } from "../components/Form/Form.style";
 import { ContainerHome } from "../components/Enterprise/styledEnterprise";
+import { theme } from "../styles/theme";
+import { Oval } from "react-loader-spinner";
 
 
 export default function Home() {
@@ -91,7 +91,19 @@ export default function Home() {
                     {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
                         <Enterprise key={data.id} enterprise={data} />
                     ))}
-                    {enterprises.length === 0 && (<p>Sem Empreendimentos</p>)}
+
+                    {enterprises.length === 0 && <Oval
+                        visible={true}
+                        height="80"
+                        width="80"
+                        color={theme.colors.brandColorDefault}
+                        secondaryColor={theme.colors.outlineGrayDark}
+                        ariaLabel="oval-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />}
+
+                    {(isSearching && enterprises.length) === 0 && (<p>Sem Empreendimentos</p>)}
                 </ContainerHome>
                 {(enterprisesNumber > rowsPerPage && !isSearching) &&
                     <ButtonContainer onClick={() => setRowsPerPage(rowsPerPage + 5)} >
