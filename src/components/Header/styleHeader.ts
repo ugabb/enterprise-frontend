@@ -29,6 +29,7 @@ export const BoxAdd = styled.div<{ return: boolean }>`
 
   @media screen and (max-width: 425px) {
     flex-direction: column;
+    margin-bottom:2rem;
   }
 
   button {
