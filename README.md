@@ -1,4 +1,4 @@
-<h1 align="center" style="font-weight: bold;">Enterprises Teste Técnico Patriani</h1>
+<h1 align="center" style="font-weight: bold;">Enterprises Teste Técnico</h1>
 
 <p align="center">
  • <a href="#tech">Technologies</a> 
@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-    <b>Frontend para o teste técnico Patriani</b>
+    <b>Frontend para o teste técnico</b>
 </p>
 
 <h2 id="layout">🎨 Layout</h2>
