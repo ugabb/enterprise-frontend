@@ -88,7 +88,7 @@ export default function Home() {
                             )
                         })} */}
                 <ContainerHome>
-                    {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).reverse().map((data: any) => (
+                    {Array.isArray(enterprises) && enterprises.slice(0, rowsPerPage).map((data: any) => (
                         <Enterprise key={data.id} enterprise={data} />
                     ))}
                     {enterprises.length === 0 && (<p>Sem Empreendimentos</p>)}
