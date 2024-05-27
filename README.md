@@ -11,7 +11,7 @@
     <b>Frontend para o teste técnico</b>
 </p>
 
-- OBS: primeiro loading de empreendimentos está lendo por conta provavelmente da latência com o servidor do deploy (Render).
+- OBS: primeiro loading de empreendimentos está lento por conta provavelmente da latência com o servidor do deploy (Render), demorando cerca de 3 min.
 
 <h2 id="layout">🎨 Layout</h2>
 
