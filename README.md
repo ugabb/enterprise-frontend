@@ -11,6 +11,8 @@
     <b>Frontend para o teste técnico</b>
 </p>
 
+- OBS: primeiro loading de empreendimentos está lendo por conta provavelmente da latência com o servidor do deploy (Render).
+
 <h2 id="layout">🎨 Layout</h2>
 
 <p align="center">
